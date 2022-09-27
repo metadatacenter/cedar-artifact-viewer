@@ -10,7 +10,8 @@ import {
   ViewChild
 } from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatChipInputEvent} from '@angular/material';
+import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
+import {MatChipInputEvent} from '@angular/material/chips';
 import {debounceTime} from 'rxjs/operators';
 
 import {Post} from '../../models/post.model';

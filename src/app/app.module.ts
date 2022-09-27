@@ -3,13 +3,12 @@ import {Injector, NgModule} from '@angular/core';
 import {createCustomElement} from '@angular/elements';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import {NgxYoutubePlayerModule} from 'ngx-youtube-player';
+import {NgxYoutubePlayer14Module} from 'ngx-youtube-player-14';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {AppComponent} from './app.component';
 import {DemoMaterialModule} from './shared/material-module';
-import {PushPipeOld} from './push.pipe';
 import {FormComponent} from './components/form/form.component';
 import {AttributeValueComponent} from './components/attribute-value/attribute-value.component';
 import {QuestionComponent} from './components/question/question.component';
@@ -29,15 +28,10 @@ import {ImageComponent} from './components/image/image.component';
 import {RichtextComponent} from './components/richtext/richtext.component';
 import {OverlayModule} from '@angular/cdk/overlay';
 
-import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
-    PushPipeOld,
     AttributeValueComponent,
     CheckboxComponent,
     ControlledComponent,
@@ -60,7 +54,7 @@ import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
     CommonModule,
     DemoMaterialModule,
     BrowserAnimationsModule,
-    NgxYoutubePlayerModule.forRoot(),
+    NgxYoutubePlayer14Module.forRoot(),
     FontAwesomeModule,
     OverlayModule,
 
@@ -87,8 +81,7 @@ export class AppModule {
     // // define in browser registry
     // customElements.define('custom-element', ngCustomElement);
 
-    const strategyFactory = new ElementZoneStrategyFactory(FormComponent, this.injector);
-    const ngCedarForm = createCustomElement(FormComponent, { injector: this.injector, strategyFactory });
+    const ngCedarForm = createCustomElement(FormComponent, { injector: this.injector});
     // const ngCedarForm = createCustomElement(FormComponent, {injector});
     customElements.define('cedar-form', ngCedarForm);
 

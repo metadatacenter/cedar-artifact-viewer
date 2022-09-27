@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {TreeNode} from '../../models/tree-node.model';
-import {NgxYoutubePlayerModule} from 'ngx-youtube-player';
+import {NgxYoutubePlayer14Module} from 'ngx-youtube-player-14';
 
 @Component({
   selector: 'app-youtube',
@@ -15,7 +15,7 @@ export class YoutubeComponent implements OnInit {
   @Input() node: TreeNode;
 
 
-  constructor(private yt: NgxYoutubePlayerModule) {
+  constructor(private yt: NgxYoutubePlayer14Module) {
   }
 
   ngOnInit() {

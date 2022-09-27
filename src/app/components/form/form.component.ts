@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChange, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormArray, FormControl, FormGroup} from '@angular/forms';
-import {MatTreeNestedDataSource, PageEvent} from '@angular/material';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {PageEvent} from '@angular/material/paginator';
 import {NestedTreeControl} from '@angular/cdk/tree';
 
 import * as cloneDeep from 'lodash/cloneDeep';
