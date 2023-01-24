@@ -21,7 +21,7 @@ import {
   faPhoneSquare,
   faPlusSquare
 } from '@fortawesome/free-solid-svg-icons';
-import {MatTooltip} from '@angular/material';
+import {MatTooltip} from '@angular/material/tooltip';
 
 
 @Component({

@@ -137,5 +137,8 @@
       }
     }
   },
-  "defaultProject": "cedar-form"
+  "defaultProject": "cedar-form",
+  "cli": {
+    "analytics": false
+  }
 }
