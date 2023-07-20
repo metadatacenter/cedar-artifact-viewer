@@ -22,7 +22,7 @@
       <span *ngIf="node.subtype == 'url'" class="question-icon"><fa-icon [icon]="faLink"></fa-icon></span>
       <span *ngIf="node.subtype == 'text'" class="question-icon"><fa-icon [icon]="faFont"></fa-icon></span>
       <span *ngIf="node.subtype == 'tel'" class="question-icon"><fa-icon [icon]="faPhoneSquare"></fa-icon></span>
-      </span>
+    </span>
     <span *ngIf="node.type == 'temporal'" class="question-icon"><fa-icon [icon]="faCalendar"></fa-icon></span>
     <span *ngIf="node.type == 'textarea'" class="question-icon"><fa-icon [icon]="faParagraph"></fa-icon></span>
     <span *ngIf="node.type == 'checkbox'" class="question-icon"><fa-icon [icon]="faCheckSquare"></fa-icon></span>
@@ -31,10 +31,11 @@
     <span *ngIf="node.type == 'controlled'" class="question-icon"><fa-icon [icon]="faExternalLinkAlt"></fa-icon></span>
     <span *ngIf="node.type == 'attribute-value'" class="question-icon"><fa-icon [icon]="faPlusSquare"></fa-icon></span>
 
-    <button  #tooltip="matTooltip"   matTooltipPosition="right"
+    <!--<button  #tooltip="matTooltip"   matTooltipPosition="right"
       mat-icon-button class="mat-icon-button help"  *ngIf="node.help"   [matTooltip]="node.help">
       <mat-icon>help_outline</mat-icon>
-    </button>
+    </button>-->
+    <div>{{node.help}}</div>
 
     <button  #constraints="matTooltip"   matTooltipPosition="right"
       mat-icon-button class="mat-icon-button help"  *ngIf="getValueConstraints().length"   [matTooltip]="getValueConstraints()">
