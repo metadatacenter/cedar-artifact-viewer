@@ -74,20 +74,20 @@ export class QuestionComponent implements OnInit, OnChanges {
           for (let i = 0; i < this.node.valueConstraints[key].length; i++) {
             switch  (key)  {
               case 'ontologies':
-                result += ' ' + value[i].acronym + ' Ontology, ';
+                result += ' ' + value[i].acronym + ' Ontology\n';
                 break;
               case 'valueSets':
-                result += '"' + value[i].name + ' ' + value[i].vsCollection + '" Value Set' + ', ';
+                result += '"' + value[i].name + ' ' + value[i].vsCollection + '" Value Set' + '\n';
                 break;
               case 'classes':
-                result += '"' + value[i].prefLabel + '" class of ' + value[i].source + ', ';
+                result += '"' + value[i].prefLabel + '" class of ' + value[i].source + '\n';
                 break;
               case 'branches':
-                result += '"' + value[i].name + '" branch of ' + value[i].acronym + ', ';
+                result += '"' + value[i].name + '" branch of ' + value[i].acronym + '\n';
                 break;
               case 'actions':
                 if (value[i].action === 'delete') {
-                  result += '"' + value[i].termUri + '" excluded from ' + value[i].sourceUri + ', ';
+                  result += '"' + value[i].termUri + '" excluded from ' + value[i].sourceUri + '\n';
                 }
                 break;
             }
