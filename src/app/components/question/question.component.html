@@ -28,21 +28,24 @@
     <span *ngIf="node.type == 'checkbox'" class="question-icon"><fa-icon [icon]="faCheckSquare"></fa-icon></span>
     <span *ngIf="node.type == 'list'" class="question-icon"><fa-icon [icon]="faList"></fa-icon></span>
     <span *ngIf="node.type == 'radio'" class="question-icon"><fa-icon [icon]="faDotCircle"></fa-icon></span>
-    <span *ngIf="node.type == 'controlled'" class="question-icon"><fa-icon [icon]="faExternalLinkAlt"></fa-icon></span>
+    <span *ngIf="node.type == 'controlled'" class="question-icon"><fa-icon [icon]="faJsonLD"></fa-icon></span>
     <span *ngIf="node.type == 'attribute-value'" class="question-icon"><fa-icon [icon]="faPlusSquare"></fa-icon></span>
+
+    <button mat-icon-button class="node-remove" *ngIf="node.type == 'controlled'"
+            (click)="openControlledSource(node)">
+      <fa-icon [icon]="faExternalLinkAlt"></fa-icon>
+    </button>
+    <button  #constraints="matTooltip"   matTooltipPosition="right"
+             [matTooltipClass]="'tooltip'"
+             mat-icon-button class="mat-icon-button help"  *ngIf="getValueConstraints().length"   [matTooltip]="getValueConstraints()">
+      <mat-icon>info_outline</mat-icon>
+    </button>
 
     <!--<button  #tooltip="matTooltip"   matTooltipPosition="right"
       mat-icon-button class="mat-icon-button help"  *ngIf="node.help"   [matTooltip]="node.help">
       <mat-icon>help_outline</mat-icon>
     </button>-->
     <div>{{node.help}}</div>
-
-    <button  #constraints="matTooltip"   matTooltipPosition="right"
-             [matTooltipClass]="'tooltip'"
-      mat-icon-button class="mat-icon-button help"  *ngIf="getValueConstraints().length"   [matTooltip]="getValueConstraints()">
-      <mat-icon>info_outline</mat-icon>
-    </button>
-
 
 
     <div *ngIf="node.type == 'attribute-value' || node.type == 'list' || node.type == 'controlled' || node.type == 'checkbox' || node.type == 'radio'">

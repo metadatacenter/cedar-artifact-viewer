@@ -23,6 +23,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {MatTooltip} from '@angular/material/tooltip';
 
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {faJsonLD} from 'src/app/shared/costom-icons';
+
+library.add(faJsonLD as any);
+
 
 @Component({
   selector: 'app-question',
@@ -53,6 +58,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   faDotCircle = faDotCircle;
   faPlusSquare = faPlusSquare;
   faExternalLinkAlt = faExternalLinkAlt;
+  faJsonLD = faJsonLD as any;
   formGroup: FormGroup;
   showDelay = {value: 0};
   hideDelay = {value: 0};
@@ -72,7 +78,7 @@ export class QuestionComponent implements OnInit, OnChanges {
         const value = this.node.valueConstraints[key];
         if (Array.isArray(value)) {
           for (let i = 0; i < this.node.valueConstraints[key].length; i++) {
-            switch  (key)  {
+            switch (key) {
               case 'ontologies':
                 result += ' ' + value[i].acronym + ' Ontology\n';
                 break;
@@ -93,7 +99,7 @@ export class QuestionComponent implements OnInit, OnChanges {
             }
           }
         } else {
-          switch  (key)  {
+          switch (key) {
             case 'numberType':
               result += 'Number Type: ' + value + ', ';
               break;
@@ -429,5 +435,33 @@ export class QuestionComponent implements OnInit, OnChanges {
   }
 
 
+  openControlledSource(node: TreeNode) {
+    let urlSuffix = null;
+    if (node && node.valueConstraints) {
+      const vc = node.valueConstraints;
+      if (vc.classes.length > 0) {
+        const classInfo = vc.classes[0];
+        urlSuffix = encodeURIComponent(classInfo.source) +
+          '?p=classes&conceptid=' +
+          encodeURIComponent(classInfo.uri);
+      } else if (vc.ontologies.length > 0) {
+        const ontologyInfo = vc.ontologies[0];
+        urlSuffix = encodeURIComponent(ontologyInfo.acronym);
+      } else if (vc.branches.length > 0) {
+        const branchInfo = vc.branches[0];
+        urlSuffix = encodeURIComponent(branchInfo.acronym) +
+          '?p=classes&conceptid=' +
+          encodeURIComponent(branchInfo.uri);
+      } else if (vc.valueSets.length > 0) {
+        const valueSetInfo = vc.valueSets[0];
+        urlSuffix = encodeURIComponent(valueSetInfo.vsCollection) +
+          '?p=classes&conceptid=' +
+          encodeURIComponent(valueSetInfo.uri);
+      }
+      if (urlSuffix !== null) {
+        window.open('https://bioportal.bioontology.org/ontologies/' + urlSuffix, '_blank');
+      }
+    }
+  }
 }
 
