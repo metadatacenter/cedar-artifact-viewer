@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cedar-form": {
+    "cedar-artifact-viewer": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/cedar-form",
+            "outputPath": "dist/cedar-artifact-viewer",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -81,19 +81,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "cedar-form:build",
+            "browserTarget": "cedar-artifact-viewer:build",
             "port": 4420
           },
           "configurations": {
             "production": {
-              "browserTarget": "cedar-form:build:production"
+              "browserTarget": "cedar-artifact-viewer:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cedar-form:build"
+            "browserTarget": "cedar-artifact-viewer:build"
           }
         },
         "test": {
@@ -130,18 +130,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "cedar-form:serve"
+            "devServerTarget": "cedar-artifact-viewer:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "cedar-form:serve:production"
+              "devServerTarget": "cedar-artifact-viewer:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "cedar-form",
+  "defaultProject": "cedar-artifact-viewer",
   "cli": {
     "analytics": false
   }

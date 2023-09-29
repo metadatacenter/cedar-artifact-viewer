@@ -3,7 +3,7 @@ import { Injector, NgModule } from '@angular/core';
 import { createCustomElement } from '@angular/elements';
 import { NgxYoutubePlayer14Module } from 'ngx-youtube-player-14';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MetadataFormComponent } from './modules/shared/components/metadata-form/metadata-form.component';
+import { ArtifactFormComponent } from './modules/shared/components/artifact-form/artifact-form.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AppComponentProd } from './app.component.prod';
 import { SharedModule } from './modules/shared/shared.module';
@@ -22,7 +22,7 @@ import { SharedModule } from './modules/shared/shared.module';
   providers: [],
   bootstrap: [],
   entryComponents: [
-    MetadataFormComponent
+    ArtifactFormComponent
   ]
 })
 export class AppModuleProd {
@@ -31,9 +31,9 @@ export class AppModuleProd {
   }
 
   ngDoBootstrap(): void {
-    const ngCedarForm = createCustomElement(MetadataFormComponent, {
+    const ngCedarArtifactViewer = createCustomElement(ArtifactFormComponent, {
       injector: this.injector
     });
-    customElements.define('cedar-form', ngCedarForm);
+    customElements.define('cedar-artifact-viewer', ngCedarArtifactViewer);
   }
 }

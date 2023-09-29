@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MetadataFormComponent } from './components/metadata-form/metadata-form.component';
+import { ArtifactFormComponent } from './components/artifact-form/artifact-form.component';
 import { AttributeValueComponent } from './components/attribute-value/attribute-value.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { ControlledComponent } from './components/controlled/controlled.component';
@@ -102,7 +102,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FontAwesomeModule
   ],
   declarations: [
-    MetadataFormComponent,
+    ArtifactFormComponent,
     AttributeValueComponent,
     CheckboxComponent,
     ControlledComponent,
@@ -120,7 +120,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   ],
   providers: [],
   exports: [
-    MetadataFormComponent
+    ArtifactFormComponent
   ]
 })
 export class SharedModule {

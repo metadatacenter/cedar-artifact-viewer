@@ -40,10 +40,6 @@ export class CheckboxComponent implements OnInit {
     });
   }
 
-  console(message) {
-    console.log(message);
-  }
-
   setChecked(event, control) {
     control.setValue(event.checked);
   }

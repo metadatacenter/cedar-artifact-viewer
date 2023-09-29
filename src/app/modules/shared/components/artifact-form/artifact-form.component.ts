@@ -22,14 +22,14 @@ import { TreeNode } from '../../models/tree-node.model';
 import { InstanceService } from '../../services/instance.service';
 
 @Component({
-  selector: 'app-metadata-form',
-  templateUrl: './metadata-form.component.html',
-  styleUrls: ['./metadata-form.component.scss'],
+  selector: 'app-artifact-form',
+  templateUrl: './artifact-form.component.html',
+  styleUrls: ['./artifact-form.component.scss'],
   providers: [TemplateParserService],
   encapsulation: ViewEncapsulation.None
 })
 
-export class MetadataFormComponent implements OnInit, OnChanges {
+export class ArtifactFormComponent implements OnInit, OnChanges {
 
   @Input() instance: any;
   @Input() template: any;
@@ -58,7 +58,6 @@ export class MetadataFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log(this.template);
     this.initialize();
   }
 
@@ -89,9 +88,7 @@ export class MetadataFormComponent implements OnInit, OnChanges {
 
   // initialize tree database
   initialize() {
-    console.log('INITIALIZE');
     if (this.instance && this.template) {
-      console.log('INSIDE');
       this.pageEvent.length = TemplateService.getPageCount(this.template);
 
       this.title = InstanceService.getTitle(this.instance) || TemplateService.getTitle(this.template);

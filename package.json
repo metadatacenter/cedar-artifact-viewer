@@ -1,5 +1,5 @@
 {
-  "name": "cedar-metadata-form",
+  "name": "cedar-artifact-viewer",
   "version": "0.9.0",
   "publishConfig": {
     "registry": "https://nexus.bmir.stanford.edu/repository/npm-cedar/"
