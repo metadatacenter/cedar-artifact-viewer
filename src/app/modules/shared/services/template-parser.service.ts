@@ -269,11 +269,8 @@ export class TemplateParserService {
         const type = TemplateService.getInputType(schema);
         const label = labels[key];
 
-        console.log(model);
-        console.log(key);
         if (model !== null && model !== undefined) {
-          console.log('still here');
-          if(!Object.prototype.hasOwnProperty.call(model, key)) {
+          if (!Object.prototype.hasOwnProperty.call(model, key)) {
             model['@context'][key] = schema['@id'];
             if (TemplateService.isElement(schema)) {
               model[key] = TemplateService.initValue(schema, key, InputType.element, minItems, maxItems);
@@ -281,9 +278,9 @@ export class TemplateParserService {
               model[key] = TemplateService.initValue(schema, key, type, minItems, maxItems);
             }
           } else {
-            console.log('Missing key:"' + key + '" from ' + model );
+            //console.log('Missing key:"' + key + '" from ' + model);
           }
-        }
+
         const modelValue = model[key];
 
         if (TemplateService.isElement(schema)) {
@@ -311,6 +308,7 @@ export class TemplateParserService {
             accumulator = accumulator.concat(node);
           }
         }
+      }
 
       }
       return accumulator;
