@@ -1,16 +1,16 @@
-import {Inject, Injectable, Optional} from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {BehaviorSubject} from 'rxjs';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
-import {TemplateSchema} from '../models/template-schema.model';
-import {Metadata} from '../models/metadata.model';
-import {MetadataSnip} from '../models/metadata-snip.model';
+import { TemplateSchema } from '../models/template-schema.model';
+import { Metadata } from '../models/metadata.model';
+import { MetadataSnip } from '../models/metadata-snip.model';
 
-import {InputTypeService} from './input-type.service';
-import {InputType} from '../models/input-type';
-import {TemplateService} from './template.service';
-import {TreeNode} from '../models/tree-node.model';
-import {InstanceService} from './instance.service';
+import { InputTypeService } from './input-type.service';
+import { InputType } from '../models/input-type';
+import { TemplateService } from './template.service';
+import { TreeNode } from '../models/tree-node.model';
+import { InstanceService } from './instance.service';
 
 
 @Injectable()
@@ -281,34 +281,34 @@ export class TemplateParserService {
             //console.log('Missing key:"' + key + '" from ' + model);
           }
 
-        const modelValue = model[key];
+          const modelValue = model[key];
 
-        if (TemplateService.isElement(schema)) {
+          if (TemplateService.isElement(schema)) {
 
-          const itemCount = modelValue.length ? modelValue.length : 1;
+            const itemCount = modelValue.length ? modelValue.length : 1;
 
-          for (let i = 0; i < itemCount; i++) {
-            const node = this.elementNode(schema, model, label, minItems, maxItems, i, key, level, modelValue, formGroup, parentNode, 0);
-            accumulator = accumulator.concat(node);
-          }
+            for (let i = 0; i < itemCount; i++) {
+              const node = this.elementNode(schema, model, label, minItems, maxItems, i, key, level, modelValue, formGroup, parentNode, 0);
+              accumulator = accumulator.concat(node);
+            }
 
-        } else if (TemplateService.isStaticField(schema)) {
-          const node = TemplateParserService.staticNode(schema, model, type, minItems, maxItems, key, modelValue, formGroup, parentNode);
-          accumulator = accumulator.concat(node);
-
-        } else if (TemplateService.isField(schema)) {
-
-          if (InputTypeService.isAttributeValue(type)) {
-            const items = InstanceService.buildAttributeValue(model, key);
-            const node = TemplateParserService.attributeValueNode(schema, model, key, items, formGroup, parentNode);
+          } else if (TemplateService.isStaticField(schema)) {
+            const node = TemplateParserService.staticNode(schema, model, type, minItems, maxItems, key, modelValue, formGroup, parentNode);
             accumulator = accumulator.concat(node);
 
-          } else {
-            const node = this.fieldNode(schema, model, label, type, minItems, maxItems, key, modelValue, formGroup, parentNode);
-            accumulator = accumulator.concat(node);
+          } else if (TemplateService.isField(schema)) {
+
+            if (InputTypeService.isAttributeValue(type)) {
+              const items = InstanceService.buildAttributeValue(model, key);
+              const node = TemplateParserService.attributeValueNode(schema, model, key, items, formGroup, parentNode);
+              accumulator = accumulator.concat(node);
+
+            } else {
+              const node = this.fieldNode(schema, model, label, type, minItems, maxItems, key, modelValue, formGroup, parentNode);
+              accumulator = accumulator.concat(node);
+            }
           }
         }
-      }
 
       }
       return accumulator;
