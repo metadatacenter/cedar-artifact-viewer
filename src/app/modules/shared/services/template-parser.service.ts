@@ -1,16 +1,16 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import {Inject, Injectable, Optional} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {BehaviorSubject} from 'rxjs';
 
-import { TemplateSchema } from '../models/template-schema.model';
-import { Metadata } from '../models/metadata.model';
-import { MetadataSnip } from '../models/metadata-snip.model';
+import {TemplateSchema} from '../models/template-schema.model';
+import {Metadata} from '../models/metadata.model';
+import {MetadataSnip} from '../models/metadata-snip.model';
 
-import { InputTypeService } from './input-type.service';
-import { InputType } from '../models/input-type';
-import { TemplateService } from './template.service';
-import { TreeNode } from '../models/tree-node.model';
-import { InstanceService } from './instance.service';
+import {InputTypeService} from './input-type.service';
+import {InputType} from '../models/input-type';
+import {TemplateService} from './template.service';
+import {TreeNode} from '../models/tree-node.model';
+import {InstanceService} from './instance.service';
 
 
 @Injectable()
@@ -269,17 +269,19 @@ export class TemplateParserService {
         const type = TemplateService.getInputType(schema);
         const label = labels[key];
 
-
-        if (!model.hasOwnProperty(key)) {
-
-          model['@context'][key] = schema['@id'];
-
-          if (TemplateService.isElement(schema)) {
-            model[key] = TemplateService.initValue(schema, key, InputType.element, minItems, maxItems);
-
-          } else if (TemplateService.isField(schema)) {
-            model[key] = TemplateService.initValue(schema, key, type, minItems, maxItems);
-
+        console.log(model);
+        console.log(key);
+        if (model !== null && model !== undefined) {
+          console.log('still here');
+          if(!Object.prototype.hasOwnProperty.call(model, key)) {
+            model['@context'][key] = schema['@id'];
+            if (TemplateService.isElement(schema)) {
+              model[key] = TemplateService.initValue(schema, key, InputType.element, minItems, maxItems);
+            } else if (TemplateService.isField(schema)) {
+              model[key] = TemplateService.initValue(schema, key, type, minItems, maxItems);
+            }
+          } else {
+            console.log('Missing key:"' + key + '" from ' + model );
           }
         }
         const modelValue = model[key];
