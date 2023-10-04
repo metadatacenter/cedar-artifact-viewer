@@ -1,0 +1,173 @@
+@use '@angular/material' as mat;
+@import 'src/styles-own.scss';
+
+@include mat.core();
+
+label.question-label {
+  margin: 10px 0 0 0;
+  font-weight: bolder;
+  width: 100%;
+}
+
+.question-icon {
+  color: rgba(0, 0, 0, 0.38);
+  padding: 0 .5em;
+}
+
+.required {
+  color: mat.get-color-from-palette($my-app-warn);
+  font-size: .5em;
+  vertical-align: super;
+}
+
+.mat-form-field {
+  margin-bottom: 10px;
+  width: 100%
+}
+
+mat-hint {
+}
+
+.form-group {
+  width: 100%;
+  padding-right: 20px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+:host ::ng-deep .mat-input-element:disabled {
+  color: currentColor;
+}
+
+:host ::ng-deep .mat-select-disabled .mat-select-value {
+  color: currentColor;
+}
+
+
+:host ::ng-deep .mat-radio-disabled {
+  .mat-radio-label-content {
+    color: currentColor;
+  }
+
+  .mat-radio-inner-circle {
+    background-color: currentColor;
+  }
+
+  .mat-radio-outer-circle {
+    border-color: currentColor !important;
+  }
+}
+
+:host ::ng-deep .mat-checkbox-disabled {
+  .mat-checkbox-label {
+    color: currentColor;
+  }
+
+  .mat-checkbox-frame {
+    border-color: currentColor;
+  }
+
+  .mat-checkbox-background {
+    //background-color: currentColor;
+  }
+
+  .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background {
+    background-color: #b0b0b0;
+  }
+}
+
+:host ::ng-deep .mat-checkbox-disabled.mat-checkbox-checked {
+  .mat-checkbox-label {
+    color: currentColor;
+  }
+
+  .mat-checkbox-frame {
+    border-color: currentColor;
+  }
+
+  .mat-checkbox-background {
+    background-color: currentColor;
+  }
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  padding-top: 0;
+}
+
+:host ::ng-deep .mat-form-field {
+  padding: 5px 0;
+}
+
+.mat-form-field-radio, .mat-form-field-checkbox {
+  padding: 15px 0 20px 0;
+}
+
+
+.section-break {
+  font-size: 2.5vw;
+  width: 100%;
+  margin: 20px 0;
+}
+
+.static-image {
+  margin: 20px 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+
+  .image {
+  }
+
+  .caption {
+    padding: 10px;
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+.static-video {
+  margin: 20px 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+
+  .caption {
+    padding: 10px;
+    font-style: italic;
+    text-align: center;
+  }
+}
+
+
+.fa-stack {
+  position: relative;
+  display: inline-block;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  vertical-align: middle;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.fa-stack-1x {
+  font-size: .8em;
+  color: white;
+}
+.fa-stack-2x {
+  font-size: 1.2em;
+}
+
+.tooltip {
+  white-space: pre-line;
+}
+
+
+

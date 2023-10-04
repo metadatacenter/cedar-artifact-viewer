@@ -1,41 +1,27 @@
-# CedarForm
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.5.
+# Cedar Artifact Viewer
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4420/`. The app will automatically reload if you change any of the source files.
 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+## To build as web component and push to cedar-component-distribution
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    cedarcli build this
 
-## Running end-to-end tests
+or
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-
-## To build as web component and push to cedar-component-server
-
-    ng build --prod --output-hashing=none
-    cat dist/cedar-form/{runtime,polyfills,main}.js > custom-elements.js
-    cp custom-elements.js  {$CEDAR_HOME}/cedar-component-distribution/cedar-form/cedar-form-{$CEDAR_VERSION}.js
+    ng build --configuration=production
+    cat dist/cedar-artifact-viewer/{runtime,polyfills,main}.js > \
+    {$CEDAR_HOME}/cedar-component-distribution/cedar-artifact-viewer/cedar-artifact-viewer-{$CEDAR_VERSION}.js
 
 ## To load in your app as web component 
 
 ```       
-<script src="https://component.metadatacenter.org/cedar-form/cedar-form-{$CEDAR_VERSION}.js" type="text/javascript"></script>   
+<script src="https://component.metadatacenter.org/cedar-artifact-viewer/cedar-artifact-viewer-{$CEDAR_VERSION}.js" type="text/javascript"></script>   
 ```
  
 Follow the instructions for using web components for your environment.

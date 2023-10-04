@@ -1,9 +1,8 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-
-import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import 'hammerjs';
+import { AppModuleProd } from './app/app.module.prod';
+import { AppModuleDev } from './app/app.module.dev';
 
 declare global {
   interface Window {
@@ -14,23 +13,16 @@ declare global {
 }
 
 // needed for jsonld js library
-(window as any).global = window;
-
-
+// (window as any).global = window;
 
 if (environment.production) {
   enableProdMode();
 }
 
-
-// living without zone.js
-// platformBrowserDynamic()
-//   .bootstrapModule(
-//     AppModule, { ngZone: 'noop' })
-//   .catch(err => console.log(err));
-
-
-platformBrowserDynamic()
-  .bootstrapModule(
-    AppModule, )
-  .catch(err => console.log(err));
+if (environment.production) {
+  platformBrowserDynamic().bootstrapModule(AppModuleProd)
+    .catch(err => console.error(err));
+} else {
+  platformBrowserDynamic().bootstrapModule(AppModuleDev)
+    .catch(err => console.error(err));
+}
