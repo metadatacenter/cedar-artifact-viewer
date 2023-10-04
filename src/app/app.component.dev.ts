@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SAMPLE_INSTANCE } from './sample-instance';
 import { SAMPLE_TEMPLATE } from './sample-template';
+import { EmptyTemplateService } from "./modules/shared/services/empty-template.service";
+import { SAMPLE_INSTANCE } from "./sample-instance";
 
 @Component({
   selector: 'app-component-dev',
@@ -11,8 +12,9 @@ export class AppComponentDev implements OnInit {
 
   injectedTemplate = SAMPLE_TEMPLATE;
 
-  //emptyInstance = EmptyTemplateService.initInstance(this.injectedTemplate);
-  emptyInstance = SAMPLE_INSTANCE;
+  //injectedInstance = EmptyTemplateService.initInstance(this.injectedTemplate);
+
+   injectedInstance = SAMPLE_INSTANCE;
 
 
   constructor() {

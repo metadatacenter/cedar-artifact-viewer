@@ -28,7 +28,7 @@ export class EmptyTemplateService {
 
   static initInstance(template: any) {
     const schema = EmptyTemplateService.schemaOf(template);
-    return {
+    const instance = {
       '@context': {
         'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
         'xsd': 'http://www.w3.org/2001/XMLSchema#',
@@ -73,6 +73,8 @@ export class EmptyTemplateService {
       'oslc:modifiedBy': '',
       '@id': ''
     };
+    console.log(JSON.stringify(instance));
+    return instance;
   }
 
   static setBasedOn(instance: any, id: string) {

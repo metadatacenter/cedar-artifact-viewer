@@ -1,3 +1,4 @@
 <div>
-  <app-artifact-form [template]="injectedTemplate" [instance]="emptyInstance" mode="view"></app-artifact-form>
+  <app-artifact-form [template]="injectedTemplate" [instance]="injectedInstance" mode="view"></app-artifact-form>
 </div>
+{{injectedInstance | json}}

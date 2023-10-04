@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponentProd {
   injectedTemplate = {};
-  emptyInstance = {};
+  injectedInstance = {};
 }
