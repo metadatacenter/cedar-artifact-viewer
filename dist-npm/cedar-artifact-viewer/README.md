@@ -18,15 +18,15 @@ or
     cat dist/cedar-artifact-viewer/{runtime,polyfills,main}.js > \
     {$CEDAR_HOME}/cedar-component-distribution/cedar-artifact-viewer/cedar-artifact-viewer-{$CEDAR_VERSION}.js
 
-## To load in your app as web component 
+## To load in your app as web component
 
 ```       
 <script src="https://component.metadatacenter.org/cedar-artifact-viewer/cedar-artifact-viewer-{$CEDAR_VERSION}.js" type="text/javascript"></script>   
 ```
- 
+
 Follow the instructions for using web components for your environment.
 
-## To use the cedar-form web component in your app 
+## To use the cedar-form web component in your app
 
 Here is an example of how you would call it from your Angular app:
 
@@ -39,5 +39,5 @@ Here is an example of how you would call it from your Angular app:
 ```
 
 using parameters:
-1. instance - The CEDAR JSON-LD instance to view  
+1. instance - The CEDAR JSON-LD instance to view
 2. template - the CEDAR Template, Template-element or Template-field to be used
