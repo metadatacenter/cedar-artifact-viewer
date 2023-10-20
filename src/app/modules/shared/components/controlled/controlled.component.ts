@@ -7,7 +7,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -19,10 +19,9 @@ import { Post } from '../../models/post.model';
 @Component({
   selector: 'app-controlled',
   templateUrl: './controlled.component.html',
-  styleUrls: ['./controlled.component.scss']
+  styleUrls: ['./controlled.component.scss'],
 })
 export class ControlledComponent implements OnInit, OnChanges {
-
   allPosts: Post[];
   selectable = true;
   removable = true;
@@ -36,22 +35,25 @@ export class ControlledComponent implements OnInit, OnChanges {
   @Output() selectedOption = new EventEmitter();
   @Output() removedOption = new EventEmitter();
   @Output() autocomplete = new EventEmitter<any>();
-  @ViewChild('autocompleteInput', { static: true }) autocompleteInput: ElementRef;
+  @ViewChild('autocompleteInput', { static: true })
+  autocompleteInput: ElementRef;
   @ViewChild('chipList', { static: true }) chipList: ElementRef;
 
-  constructor(private fb: FormBuilder) {
-  }
+  constructor(private fb: FormBuilder) {}
 
   filterItems(arr, query) {
     return arr.filter(function (el) {
-      return el.prefLabel.toLowerCase().indexOf(query.toLowerCase().toLowerCase()) !== -1;
+      return (
+        el.prefLabel
+          .toLowerCase()
+          .indexOf(query.toLowerCase().toLowerCase()) !== -1
+      );
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['autocompleteResults']) {
       if (this.group && this.search) {
-
         // save the posts
         let posts = changes['autocompleteResults']['currentValue'];
 
@@ -60,10 +62,14 @@ export class ControlledComponent implements OnInit, OnChanges {
 
         // and sort
         posts = posts.sort((leftSide, rightSide): number => {
-          if (leftSide.prefLabel.toLowerCase() < rightSide.prefLabel.toLowerCase()) {
+          if (
+            leftSide.prefLabel.toLowerCase() < rightSide.prefLabel.toLowerCase()
+          ) {
             return -1;
           }
-          if (leftSide.prefLabel.toLowerCase() > rightSide.prefLabel.toLowerCase()) {
+          if (
+            leftSide.prefLabel.toLowerCase() > rightSide.prefLabel.toLowerCase()
+          ) {
             return 1;
           }
           return 0;
@@ -79,15 +85,20 @@ export class ControlledComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.removable = this.mode === 'edit';
     this.selectable = this.mode === 'edit';
-    this.group.controls['values']['controls'][0].get('search').valueChanges.pipe(debounceTime(500)).subscribe(val => {
-      this.search = val;
-      this.autocomplete.emit({ 'search': val, 'constraints': this.valueConstraints });
+    this.group.controls['values']['controls'][0]
+      .get('search')
+      .valueChanges.pipe(debounceTime(500))
+      .subscribe((val) => {
+        this.search = val;
+        this.autocomplete.emit({
+          search: val,
+          constraints: this.valueConstraints,
+        });
 
-      // show the loading spinner
-      this.isLoading = true;
-    });
+        // show the loading spinner
+        this.isLoading = true;
+      });
   }
-
 
   // after you clicked an autosuggest option, this function will show the field you want to show in input
   displayFn(post: Post) {
@@ -103,7 +114,9 @@ export class ControlledComponent implements OnInit, OnChanges {
 
     // Add our requirement
     if ((value || '').trim()) {
-      const chips = this.group.controls['values']['controls'][0].get('chips') as FormArray;
+      const chips = this.group.controls['values']['controls'][0].get(
+        'chips',
+      ) as FormArray;
       chips.push(this.fb.control(value.trim()));
     }
 
@@ -114,14 +127,17 @@ export class ControlledComponent implements OnInit, OnChanges {
   }
 
   // chip selection changed
-  changed(event: MatAutocompleteSelectedEvent) {
-  }
+  changed(event: MatAutocompleteSelectedEvent) {}
 
   // chip was removed
   remove(index: number): void {
     if (this.removable) {
-      const chips = this.group.controls['values']['controls'][0].get('chips') as FormArray;
-      const ids = this.group.controls['values']['controls'][0].get('ids') as FormArray;
+      const chips = this.group.controls['values']['controls'][0].get(
+        'chips',
+      ) as FormArray;
+      const ids = this.group.controls['values']['controls'][0].get(
+        'ids',
+      ) as FormArray;
 
       if (index >= 0) {
         chips.removeAt(index);
@@ -136,9 +152,13 @@ export class ControlledComponent implements OnInit, OnChanges {
     this.autocompleteInput.nativeElement.value = '';
     this.autocompleteInput.nativeElement.focus();
 
-    const chips = this.group.controls['values']['controls'][0].get('chips') as FormArray;
+    const chips = this.group.controls['values']['controls'][0].get(
+      'chips',
+    ) as FormArray;
     chips.push(this.fb.control(label.trim()));
-    const ids = this.group.controls['values']['controls'][0].get('ids') as FormArray;
+    const ids = this.group.controls['values']['controls'][0].get(
+      'ids',
+    ) as FormArray;
     ids.push(this.fb.control(value.toString().trim()));
 
     // notify the parent component of the selection
@@ -155,10 +175,12 @@ export class ControlledComponent implements OnInit, OnChanges {
     if (val === '' || val === null) {
       return [];
     }
-    return val ? this.allPosts.filter(s => s.title.toLowerCase().indexOf(val.toLowerCase()) !== -1)
+    return val
+      ? this.allPosts.filter(
+          (s) => s.title.toLowerCase().indexOf(val.toLowerCase()) !== -1,
+        )
       : this.allPosts;
   }
-
 
   // focus the input field and remove any unwanted text.
   focusOnPlaceInput() {

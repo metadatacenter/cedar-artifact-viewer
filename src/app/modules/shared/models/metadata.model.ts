@@ -1,49 +1,45 @@
-
 export interface Metadata {
   '@context'?: {
-    'rdfs'?: string,
-    'xsd'?: string,
-    'pav'?: string,
-    'schema'?: string,
-    'oslc'?: string,
-    'skos'?: string,
+    rdfs?: string;
+    xsd?: string;
+    pav?: string;
+    schema?: string;
+    oslc?: string;
+    skos?: string;
     'rdfs:label'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'schema:isBasedOn'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'schema:name'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'schema:description'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'pav:createdOn'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'pav:createdBy'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'pav:lastUpdatedOn'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'oslc:modifiedBy'?: {
-      '@type': string
-    },
+      '@type': string;
+    };
     'skos:notation'?: {
-      '@type': string
-    }
+      '@type': string;
+    };
   };
-  'schema:isBasedOn'?: string,
-  'schema:name'?: string,
-  'schema:description'?: string,
-  'pav:createdOn'?: string,
-  'pav:createdBy'?: string,
-  'pav:lastUpdatedOn'?: string,
-  'oslc:modifiedBy'?: string,
-  '@id'?: string
+  'schema:isBasedOn'?: string;
+  'schema:name'?: string;
+  'schema:description'?: string;
+  'pav:createdOn'?: string;
+  'pav:createdBy'?: string;
+  'pav:lastUpdatedOn'?: string;
+  'oslc:modifiedBy'?: string;
+  '@id'?: string;
 }
-
-
-

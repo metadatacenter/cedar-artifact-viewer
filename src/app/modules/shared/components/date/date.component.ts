@@ -1,4 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TreeNode } from '../../models/tree-node.model';
 
@@ -6,7 +15,7 @@ import { TreeNode } from '../../models/tree-node.model';
   selector: 'app-date',
   templateUrl: './date.component.html',
   styleUrls: ['./date.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class DateComponent implements OnInit {
   @ViewChild('picker', { static: true }) picker: ElementRef;
@@ -17,29 +26,34 @@ export class DateComponent implements OnInit {
   @Input() index: number;
   @Output() changed = new EventEmitter<any>();
 
-
-  constructor(private elementRef: ElementRef) {
-  }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit() {
     // initialize the value
-    this.formGroup.get('values').setValue(this.getValue(this.node.model[this.node.key], this.node.valueLocation));
+    this.formGroup
+      .get('values')
+      .setValue(
+        this.getValue(this.node.model[this.node.key], this.node.valueLocation),
+      );
 
     // watch for changes
-    this.formGroup.get('values').valueChanges.subscribe(value => {
-
+    this.formGroup.get('values').valueChanges.subscribe((value) => {
       // update our metadata model
-      this.node.model[this.node.key] = this.setValue(value, this.node.model[this.node.key], this.node.valueLocation);
+      this.node.model[this.node.key] = this.setValue(
+        value,
+        this.node.model[this.node.key],
+        this.node.valueLocation,
+      );
 
       // fire off change message to parent
       this.changed.emit({
-        'type': this.node.type,
-        'subtype': this.node.subtype,
-        'model': this.node.model,
-        'key': this.node.key,
-        'index': 0,
-        'location': this.node.valueLocation,
-        'value': value
+        type: this.node.type,
+        subtype: this.node.subtype,
+        model: this.node.model,
+        key: this.node.key,
+        index: 0,
+        location: this.node.valueLocation,
+        value: value,
       });
     });
   }
@@ -75,7 +89,9 @@ export class DateComponent implements OnInit {
   // create the metadata model date object
   setDate(value, valueLocation) {
     const obj = { '@type': 'xsd:dateTime' };
-    obj[valueLocation] = value ? this.parseDate(value).toISOString().substring(0, 10) : null;
+    obj[valueLocation] = value
+      ? this.parseDate(value).toISOString().substring(0, 10)
+      : null;
     return obj;
   }
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ArtifactFormComponent } from './components/artifact-form/artifact-form.component';
+import { CedarArtifactViewerComponent } from './components/cedar-artifact-viewer/cedar-artifact-viewer.component';
 import { AttributeValueComponent } from './components/attribute-value/attribute-value.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { ControlledComponent } from './components/controlled/controlled.component';
@@ -11,6 +11,7 @@ import { QuestionComponent } from './components/question/question.component';
 import { RadioComponent } from './components/radio/radio.component';
 import { RichtextComponent } from './components/richtext/richtext.component';
 import { SectionComponent } from './components/section/section.component';
+import { StaticHeaderComponent } from './components/static-header/static-header.component';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { TextfieldComponent } from './components/textfield/textfield.component';
 import { YoutubeComponent } from './components/youtube/youtube.component';
@@ -55,6 +56,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SampleTemplatesComponent } from './components/sample-templates/sample-templates.component';
+import { CedarArtifactViewerWrapperComponent } from './components/cedar-artifact-viewer-wrapper/cedar-artifact-viewer-wrapper.component';
 
 @NgModule({
   imports: [
@@ -99,10 +102,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ScrollingModule,
     ReactiveFormsModule,
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   declarations: [
-    ArtifactFormComponent,
+    CedarArtifactViewerComponent,
     AttributeValueComponent,
     CheckboxComponent,
     ControlledComponent,
@@ -116,12 +119,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     SectionComponent,
     TextareaComponent,
     TextfieldComponent,
-    YoutubeComponent
+    YoutubeComponent,
+    StaticHeaderComponent,
+    SampleTemplatesComponent,
+    CedarArtifactViewerComponent,
+    CedarArtifactViewerWrapperComponent,
   ],
   providers: [],
-  exports: [
-    ArtifactFormComponent
-  ]
+  exports: [CedarArtifactViewerComponent],
 })
-export class SharedModule {
-}
+export class SharedModule {}

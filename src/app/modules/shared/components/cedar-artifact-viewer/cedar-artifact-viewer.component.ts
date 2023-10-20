@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChange,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
@@ -20,16 +20,26 @@ import { TemplateParserService } from '../../services/template-parser.service';
 import { TemplateService } from '../../services/template.service';
 import { TreeNode } from '../../models/tree-node.model';
 import { InstanceService } from '../../services/instance.service';
+import { MessageHandlerService } from '../../services/message-handler.service';
+import { SampleTemplatesService } from '../sample-templates/sample-templates.service';
 
 @Component({
-  selector: 'app-artifact-form',
-  templateUrl: './artifact-form.component.html',
-  styleUrls: ['./artifact-form.component.scss'],
+  selector: 'app-cedar-artifact-viewer',
+  templateUrl: './cedar-artifact-viewer.component.html',
+  styleUrls: ['./cedar-artifact-viewer.component.scss'],
   providers: [TemplateParserService],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
+export class CedarArtifactViewerComponent implements OnInit, OnChanges {
+  static TEMPLATE_LOCATION_PREFIX = 'sampleTemplateLocationPrefix';
+  static LOAD_SAMPLE_TEMPLATE_NAME = 'loadSampleTemplateName';
+  static FALLBACK_LANGUAGE = 'fallbackLanguage';
+  static DEFAULT_LANGUAGE = 'defaultLanguage';
+  static SHOW_SPINNER_BEFORE_INIT = 'showSpinnerBeforeInit';
 
-export class ArtifactFormComponent implements OnInit, OnChanges {
+  private static SHOW_HEADER = 'showHeader';
+  private static SHOW_FOOTER = 'showFooter';
+  private static SHOW_SAMPLE_TEMPLATE_LINKS = 'showSampleTemplateLinks';
 
   @Input() instance: any;
   @Input() template: any;
@@ -49,12 +59,47 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
   pageTitle: string;
   pageDescription: string;
 
-  constructor(database: TemplateParserService, private elementRef: ElementRef) {
-    this.pageEvent = { 'previousPageIndex': 0, 'pageIndex': 0, 'pageSize': 1, 'length': 0 };
+  @Input() sampleTemplateLoaderObject: any = null;
+  showSampleTemplateLinks = false;
+  showHeader = false;
+  showFooter = false;
+
+  constructor(
+    private messageHandlerService: MessageHandlerService,
+    database: TemplateParserService,
+    private sampleTemplateService: SampleTemplatesService,
+    private elementRef: ElementRef,
+  ) {
+    this.pageEvent = {
+      previousPageIndex: 0,
+      pageIndex: 0,
+      pageSize: 1,
+      length: 0,
+    };
     this.database = database;
     this.dataSource = new MatTreeNestedDataSource();
     this.treeControl = new NestedTreeControl<TreeNode>(this._getChildren);
     this.form = new FormGroup({});
+  }
+
+  @Input() set config(value: object) {
+    if (value != null) {
+      if (
+        Object.hasOwn(
+          value,
+          CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS,
+        )
+      ) {
+        this.showSampleTemplateLinks =
+          value[CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS];
+      }
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_FOOTER)) {
+        this.showFooter = value[CedarArtifactViewerComponent.SHOW_FOOTER];
+      }
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_HEADER)) {
+        this.showHeader = value[CedarArtifactViewerComponent.SHOW_HEADER];
+      }
+    }
   }
 
   ngOnInit(): void {
@@ -64,8 +109,14 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
   onPageChange(event) {
     this.pageEvent = event;
     this.initialize();
-    this.pageTitle = TemplateService.getTitleofPage(this.template, event.pageIndex);
-    this.pageDescription = TemplateService.getDescriptionofPage(this.template, event.pageIndex);
+    this.pageTitle = TemplateService.getTitleofPage(
+      this.template,
+      event.pageIndex,
+    );
+    this.pageDescription = TemplateService.getDescriptionofPage(
+      this.template,
+      event.pageIndex,
+    );
   }
 
   onAutocomplete(event) {
@@ -73,7 +124,10 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    if (changes['autocompleteResults'] && changes['autocompleteResults']['currentValue'].length > 0) {
+    if (
+      changes['autocompleteResults'] &&
+      changes['autocompleteResults']['currentValue'].length > 0
+    ) {
       this.autocompleteResults = changes['autocompleteResults']['currentValue'];
     } else {
       this.initialize();
@@ -91,12 +145,20 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
     if (this.instance && this.template) {
       this.pageEvent.length = TemplateService.getPageCount(this.template);
 
-      this.title = InstanceService.getTitle(this.instance) || TemplateService.getTitle(this.template);
-      this.description = InstanceService.getDescription(this.instance) || TemplateService.getDescription(this.template);
-      this.database.initialize(this.form, this.instance, this.template, this.pageEvent.pageIndex);
+      this.title =
+        InstanceService.getTitle(this.instance) ||
+        TemplateService.getTitle(this.template);
+      this.description =
+        InstanceService.getDescription(this.instance) ||
+        TemplateService.getDescription(this.template);
+      this.database.initialize(
+        this.form,
+        this.instance,
+        this.template,
+        this.pageEvent.pageIndex,
+      );
 
-
-      this.database.dataChange.subscribe(data => {
+      this.database.dataChange.subscribe((data) => {
         if (data && data.length > 0) {
           this.dataSource = new MatTreeNestedDataSource();
           this.dataSource.data = data;
@@ -121,7 +183,6 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
 
   // add new element to form
   copyItem(node: TreeNode) {
-
     const clonedModel = cloneDeep(node.model[node.key][node.itemCount]);
     node.model[node.key].splice(node.itemCount + 1, 0, clonedModel);
 
@@ -140,7 +201,10 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
     }
     this.updateModel(clonedNode, node.model);
     const parentGroup = node.parentGroup || this.form;
-    parentGroup.addControl((clonedNode.key + clonedNode.itemCount), clonedNode.formGroup);
+    parentGroup.addControl(
+      clonedNode.key + clonedNode.itemCount,
+      clonedNode.formGroup,
+    );
     this.database.dataChange.next(this.database.data);
   }
 
@@ -158,17 +222,15 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
     }
 
     const parent = node.parentGroup || this.form;
-    parent.removeControl((node.key + node.itemCount));
+    parent.removeControl(node.key + node.itemCount);
     this.database.dataChange.next(this.database.data);
   }
 
   // reset the model down the tree at itemCount
   updateModel(node: TreeNode, model) {
-
     node.model = model;
 
     if (node.children) {
-
       const that = this;
       const key = node.key;
       const itemCount = node.itemCount;
@@ -182,18 +244,17 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
           that.updateModel(child, model[key]);
         });
       }
-
     }
   }
 
   // validate the entire form by touching each field
   validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
+    Object.keys(formGroup.controls).forEach((field) => {
       const control = formGroup.get(field);
       if (control instanceof FormControl) {
         control.markAsTouched({ onlySelf: true });
       } else if (control instanceof FormArray) {
-        control.controls.forEach(cntl => {
+        control.controls.forEach((cntl) => {
           cntl.markAsTouched({ onlySelf: true });
         });
       } else if (control instanceof FormGroup) {
@@ -205,17 +266,17 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
   emitChanges(val) {
     this.validateAllFormFields(this.form);
     this.formChange.emit({
-      'title': this.title,
-      'description': this.description,
-      'valid': this.form.valid,
-      'value': val
+      title: this.title,
+      description: this.description,
+      valid: this.form.valid,
+      value: val,
     });
   }
 
   // notify caller of changes in the form
   onChanges(): void {
     if (this.form && this.form.valueChanges) {
-      this.form.valueChanges.subscribe(val => {
+      this.form.valueChanges.subscribe((val) => {
         this.emitChanges(val);
       });
     }
@@ -228,7 +289,7 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
       // 'add' a timezone offset so we end up on the original date again
       const dt = new Date(val);
       dt.setMinutes(dt.getMinutes() + dt.getTimezoneOffset());
-      result =  dt;
+      result = dt;
     }
     return result;
   }
@@ -236,10 +297,15 @@ export class ArtifactFormComponent implements OnInit, OnChanges {
   // get the metadata for the template
   getTemplateInfo() {
     let result;
-    if (this.template && this.template.hasOwnProperty('pav:lastUpdatedOn')) {
-      result = this.parseDate(this.template['pav:lastUpdatedOn'].substring(0, 10)).toDateString();
+    if (this.template && Object.hasOwn(this.template, 'pav:lastUpdatedOn')) {
+      result = this.parseDate(
+        this.template['pav:lastUpdatedOn'].substring(0, 10),
+      ).toDateString();
     }
     return result;
   }
-}
 
+  dataAvailableForRender(): boolean {
+    return this.template != null;
+  }
+}

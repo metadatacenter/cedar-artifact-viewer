@@ -1,14 +1,18 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+} from '@angular/forms';
 
 import { TreeNode } from '../../models/tree-node.model';
 import { ValidatorService } from '../../services/validator.service';
 
-
 @Component({
   selector: 'app-textfield',
   templateUrl: './textfield.component.html',
-  styleUrls: ['./textfield.component.scss']
+  styleUrls: ['./textfield.component.scss'],
 })
 export class TextfieldComponent implements OnInit {
   @Input() formGroup: FormGroup;
@@ -19,40 +23,46 @@ export class TextfieldComponent implements OnInit {
   @Output() changed = new EventEmitter<any>();
   @Input() mode: string;
 
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     // initialize the value
-    this.formGroup.get('values').setValue(this.getValue(this.node.model[this.node.key], this.node.valueLocation));
+    this.formGroup
+      .get('values')
+      .setValue(
+        this.getValue(this.node.model[this.node.key], this.node.valueLocation),
+      );
     this.setValidators(this.formGroup);
 
     // watch for changes
-    this.formGroup.get( 'values').valueChanges.subscribe(value => {
+    this.formGroup.get('values').valueChanges.subscribe((value) => {
       // update our metadata model
-      this.node.model[this.node.key] = this.setValue(value, this.node.model[this.node.key], this.node.valueLocation);
+      this.node.model[this.node.key] = this.setValue(
+        value,
+        this.node.model[this.node.key],
+        this.node.valueLocation,
+      );
 
       // fire off change message to parent
       this.changed.emit({
-        'type': this.node.type,
-        'subtype': this.node.subtype,
-        'model': this.node.model,
-        'key': this.node.key,
-        'index': 0,
-        'location': this.node.valueLocation,
-        'value': value
+        type: this.node.type,
+        subtype: this.node.subtype,
+        model: this.node.model,
+        key: this.node.key,
+        index: 0,
+        location: this.node.valueLocation,
+        value: value,
       });
     });
   }
 
   setValidators(formGroup: FormGroup) {
     const validators = ValidatorService.getValidators(this.node);
-    this.formGroup.get('values')['controls'].forEach(function(control) {
+    this.formGroup.get('values')['controls'].forEach(function (control) {
       control.setValidators(validators);
       control.updateValueAndValidity();
     });
   }
-
 
   // get the value out of the model and into something the form can edit
   getValue(model, valueLocation) {
@@ -70,7 +80,6 @@ export class TextfieldComponent implements OnInit {
     }
     return result;
   }
-
 
   // create the metadata model date object
   setVal(value, valueLocation) {
@@ -91,5 +100,4 @@ export class TextfieldComponent implements OnInit {
     }
     return result;
   }
-
 }

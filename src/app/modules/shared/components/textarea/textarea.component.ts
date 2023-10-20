@@ -2,11 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TreeNode } from '../../models/tree-node.model';
 
-
 @Component({
   selector: 'app-textarea',
   templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss']
+  styleUrls: ['./textarea.component.scss'],
 })
 export class TextareaComponent implements OnInit {
   @Input() formGroup: FormGroup;
@@ -15,27 +14,34 @@ export class TextareaComponent implements OnInit {
   @Input() index: number;
   @Output() changed = new EventEmitter<any>();
 
-
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     // initialize the value
-    this.formGroup.get('values').setValue(this.getValue(this.node.model[this.node.key], this.node.valueLocation));
+    this.formGroup
+      .get('values')
+      .setValue(
+        this.getValue(this.node.model[this.node.key], this.node.valueLocation),
+      );
 
     // watch for changes
-    this.formGroup.get( 'values').valueChanges.subscribe(value => {
+    this.formGroup.get('values').valueChanges.subscribe((value) => {
       // update our metadata model
-      this.node.model[this.node.key] = this.setValue(value, this.node.model[this.node.key], this.node.valueLocation);
+      this.node.model[this.node.key] = this.setValue(
+        value,
+        this.node.model[this.node.key],
+        this.node.valueLocation,
+      );
 
       // fire off change message to parent
       this.changed.emit({
-        'type': this.node.type,
-        'subtype': this.node.subtype,
-        'model': this.node.model,
-        'key': this.node.key,
-        'index': 0,
-        'location': this.node.valueLocation,
-        'value': value
+        type: this.node.type,
+        subtype: this.node.subtype,
+        model: this.node.model,
+        key: this.node.key,
+        index: 0,
+        location: this.node.valueLocation,
+        value: value,
       });
     });
   }
@@ -56,7 +62,6 @@ export class TextareaComponent implements OnInit {
     }
     return result;
   }
-
 
   // get the form value into the model
   setValue(value, model, valueLocation) {

@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { InputTypeService } from './input-type.service';
 import { TemplateSchema } from '../models/template-schema.model';
 
-
 @Injectable()
 export class InstanceService {
-
   it: InputTypeService;
 
   constructor() {
@@ -16,7 +14,6 @@ export class InstanceService {
   static isUndefined(value) {
     return value === null || value === undefined;
   }
-
 
   static isBasedOn(instance: any) {
     return instance['schema:isBasedOn'];
@@ -47,12 +44,15 @@ export class InstanceService {
 
   // Function that generates the @type for a field in an instance, based on the schema @type definition
   static generateInstanceType(value) {
-    const enumeration = this.isUndefined(value.oneOf) ? value.enum : value.oneOf[0].enum;
+    const enumeration = this.isUndefined(value.oneOf)
+      ? value.enum
+      : value.oneOf[0].enum;
 
     // If the type is defined at the schema level
     if (!this.isUndefined(enumeration)) {
       // If only one type has been defined, it is returned
-      const instanceType = (enumeration.length === 1) ? enumeration[0] : enumeration;
+      const instanceType =
+        enumeration.length === 1 ? enumeration[0] : enumeration;
       if (instanceType) {
         return instanceType;
       }
@@ -64,7 +64,7 @@ export class InstanceService {
   }
 
   static generateInstanceTypeForNumericField(schema: TemplateSchema) {
-    if (schema._valueConstraints.hasOwnProperty('numberType')) {
+    if (Object.hasOwn(schema._valueConstraints, 'numberType')) {
       return schema._valueConstraints.numberType;
     }
   }
@@ -99,11 +99,14 @@ export class InstanceService {
 
   static generateGUID = function () {
     let d = Date.now();
-    const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-      const r = (d + Math.random() * 16) % 16 | 0;
-      d = Math.floor(d / 16);
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
+    const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+      /[xy]/g,
+      function (c) {
+        const r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+      },
+    );
     return guid;
   };
 
@@ -127,11 +130,9 @@ export class InstanceService {
   static setAttributeValue(model, key, index, location, val) {
     const itemKey = model[key][index];
     if (itemKey) {
-
       if (location === 'value') {
         // change the value
         model[itemKey]['@value'] = val;
-
       } else {
         // change the label
         const itemValue = model[itemKey]['@value'];
@@ -145,25 +146,26 @@ export class InstanceService {
     } else {
       // initialize attribute value field with this itemKey
       let newKey = val;
-      while (model.hasOwnProperty(newKey)) {
+      while (Object.hasOwn(model, newKey)) {
         newKey = newKey + '1';
       }
-      model['@context'][newKey] = 'https://schema.metadatacenter.org/properties/' + this.generateGUID();
+      model['@context'][newKey] =
+        'https://schema.metadatacenter.org/properties/' + this.generateGUID();
       model[key] = [newKey];
       model[newKey] = { '@value': val };
     }
   }
-
 
   // copy the attribute value field pair at index to a new index
   static copyAttributeValue(model, key, index) {
     const oldKey = model[key][index];
     const oldValue = model[oldKey]['@value'];
     let newKey = oldKey;
-    while (model.hasOwnProperty(newKey)) {
+    while (Object.hasOwn(model, newKey)) {
       newKey = newKey + '1';
     }
-    model['@context'][newKey] = 'https://schema.metadatacenter.org/properties/' + this.generateGUID();
+    model['@context'][newKey] =
+      'https://schema.metadatacenter.org/properties/' + this.generateGUID();
     model[key].splice(index + 1, 0, newKey);
     model[newKey] = { '@value': oldValue };
   }
@@ -184,7 +186,12 @@ export class InstanceService {
     }
   }
 
-  static addControlledValue(model: any, key: string, value: string, label: string) {
+  static addControlledValue(
+    model: any,
+    key: string,
+    value: string,
+    label: string,
+  ) {
     const val = { '@id': value, 'rdfs:label': label };
     model[key] = Array.isArray(model[key]) ? model[key] : [model[key]];
     model[key].push(val);
@@ -194,8 +201,13 @@ export class InstanceService {
     model[key].splice(index, 1);
   }
 
-
-  static setCheckValue(model: any, key: string, index: number, location: string, val: string[]) {
+  static setCheckValue(
+    model: any,
+    key: string,
+    index: number,
+    location: string,
+    val: string[],
+  ) {
     const arr = [];
     for (let i = 0; i < val[index].length; i++) {
       const obj = {};
@@ -208,39 +220,39 @@ export class InstanceService {
   static initInstance() {
     return {
       '@context': {
-        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-        'xsd': 'http://www.w3.org/2001/XMLSchema#',
-        'pav': 'http://purl.org/pav/',
-        'schema': 'http://schema.org/',
-        'oslc': 'http://open-services.net/ns/core#',
-        'skos': 'http://www.w3.org/2004/02/skos/core#',
+        rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+        xsd: 'http://www.w3.org/2001/XMLSchema#',
+        pav: 'http://purl.org/pav/',
+        schema: 'http://schema.org/',
+        oslc: 'http://open-services.net/ns/core#',
+        skos: 'http://www.w3.org/2004/02/skos/core#',
         'rdfs:label': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'schema:isBasedOn': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'schema:name': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'schema:description': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'pav:createdOn': {
-          '@type': 'xsd:dateTime'
+          '@type': 'xsd:dateTime',
         },
         'pav:createdBy': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'pav:lastUpdatedOn': {
-          '@type': 'xsd:dateTime'
+          '@type': 'xsd:dateTime',
         },
         'oslc:modifiedBy': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'skos:notation': {
-          '@type': 'xsd:string'
-        }
+          '@type': 'xsd:string',
+        },
       },
       'schema:isBasedOn': '',
       'schema:name': '',
@@ -249,8 +261,7 @@ export class InstanceService {
       'pav:createdBy': '',
       'pav:lastUpdatedOn': '',
       'oslc:modifiedBy': '',
-      '@id': ''
+      '@id': '',
     };
   }
-
 }

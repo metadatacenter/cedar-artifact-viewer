@@ -2,23 +2,18 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TreeNode } from '../../models/tree-node.model';
 
-
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
-  styleUrls: ['./image.component.scss']
+  styleUrls: ['./image.component.scss'],
 })
 export class ImageComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() node: TreeNode;
 
+  constructor() {}
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 
   getImageWidth(node: TreeNode) {
     let result = 367;
@@ -33,6 +28,4 @@ export class ImageComponent implements OnInit {
       return node.size.height;
     }
   }
-
-
 }

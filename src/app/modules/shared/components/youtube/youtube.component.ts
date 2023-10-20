@@ -6,27 +6,21 @@ import { NgxYoutubePlayer14Module } from 'ngx-youtube-player-14';
 @Component({
   selector: 'app-youtube',
   templateUrl: './youtube.component.html',
-  styleUrls: ['./youtube.component.scss']
+  styleUrls: ['./youtube.component.scss'],
 })
-
-
 export class YoutubeComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() node: TreeNode;
 
+  constructor(private yt: NgxYoutubePlayer14Module) {}
 
-  constructor(private yt: NgxYoutubePlayer14Module) {
-  }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   savePlayer(player) {
     this.yt = player;
   }
 
-  onChange(event) {
-  }
+  onChange(event) {}
 
   getImageWidth(node: TreeNode) {
     if (node.size && node.size.width && Number.isInteger(node.size.width)) {
@@ -39,7 +33,4 @@ export class YoutubeComponent implements OnInit {
       return node.size.height;
     }
   }
-
-
-
 }

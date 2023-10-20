@@ -1,3 +1,7 @@
+<app-static-header *ngIf="dataAvailableForRender() && showHeader"
+                   [callbackOwnerObject]="sampleTemplateLoaderObject"
+                   [showSampleTemplateLinks]="showSampleTemplateLinks"></app-static-header>
+
 <div class="cedar-form-body">
   <h2>{{title}}
     <button mat-icon-button class="mat-icon-button help" matTooltipPosition="right" *ngIf="description"

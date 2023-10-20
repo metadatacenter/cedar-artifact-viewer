@@ -5,17 +5,13 @@ import { TreeNode } from '../../models/tree-node.model';
 @Component({
   selector: 'app-richtext',
   templateUrl: './richtext.component.html',
-  styleUrls: ['./richtext.component.scss']
+  styleUrls: ['./richtext.component.scss'],
 })
 export class RichtextComponent implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() node: TreeNode;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
-
+  ngOnInit() {}
 }

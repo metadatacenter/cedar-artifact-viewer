@@ -1,0 +1,14 @@
+<app-cedar-artifact-viewer *ngIf="editorDataReady()"
+                                      [config]="innerConfig"
+                                      [templateJsonObject]="templateJson"
+                                      [sampleTemplateLoaderObject]="sampleTemplateLoaderObject"
+                                      (handlerContextEvent)="handlerContextChanged($event)"
+></app-cedar-artifact-viewer>
+<div class="spinner-wrapper" *ngIf="!editorDataReady() && showSpinnerBeforeInit">
+  <mat-progress-spinner
+    diameter="24"
+    mode="indeterminate">
+  </mat-progress-spinner>
+  <h1>{{'Process.Initializing' | translate}}</h1>
+</div>
+

@@ -4,12 +4,10 @@ import {
   Input,
   OnInit,
   Output,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TreeNode } from '../../models/tree-node.model';
-
-
 
 @Component({
   selector: 'app-list',
@@ -23,40 +21,49 @@ export class ListComponent implements OnInit {
   @Input() mode: string;
   @Output() changed = new EventEmitter<any>();
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.formGroup.get(this.node.key + 'list').setValue(
-      this.getListValue(this.node.options,
-        this.node.model[this.node.key],
-        this.node.valueLocation,
-        this.node.multipleChoice));
+    this.formGroup
+      .get(this.node.key + 'list')
+      .setValue(
+        this.getListValue(
+          this.node.options,
+          this.node.model[this.node.key],
+          this.node.valueLocation,
+          this.node.multipleChoice,
+        ),
+      );
 
     // watch for changes
-    this.formGroup.get(this.node.key + 'list').valueChanges.subscribe(value => {
-      this.node.model[this.node.key] = this.setListValue(value,
-        this.node.options, this.node.model[this.node.key],
-        this.node.valueLocation, this.node.multipleChoice);
+    this.formGroup
+      .get(this.node.key + 'list')
+      .valueChanges.subscribe((value) => {
+        this.node.model[this.node.key] = this.setListValue(
+          value,
+          this.node.options,
+          this.node.model[this.node.key],
+          this.node.valueLocation,
+          this.node.multipleChoice,
+        );
 
-      // fire off change message to parent
-      this.changed.emit({
-        'type': this.node.type,
-        'subtype': this.node.subtype,
-        'model': this.node.model,
-        'key': this.node.key,
-        'index': 0,
-        'location': this.node.valueLocation,
-        'value': value
+        // fire off change message to parent
+        this.changed.emit({
+          type: this.node.type,
+          subtype: this.node.subtype,
+          model: this.node.model,
+          key: this.node.key,
+          index: 0,
+          location: this.node.valueLocation,
+          value: value,
+        });
       });
-    });
   }
 
   getLiteralMap(literals) {
-    const map = literals
-      .map(function (element) {
-        return element.label;
-      });
+    const map = literals.map(function (element) {
+      return element.label;
+    });
     return map;
   }
 
@@ -66,7 +73,6 @@ export class ListComponent implements OnInit {
     const map = this.getLiteralMap(literals);
     if (model) {
       if (multiple) {
-
         for (let i = 0; i < model.length; i++) {
           result.push(map.indexOf(model[i][valueLocation]));
         }
@@ -94,5 +100,4 @@ export class ListComponent implements OnInit {
     }
     return result;
   }
-
 }
