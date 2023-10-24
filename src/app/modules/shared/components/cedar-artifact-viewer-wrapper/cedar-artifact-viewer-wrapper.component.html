@@ -1,8 +1,8 @@
 <app-cedar-artifact-viewer *ngIf="editorDataReady()"
                                       [config]="innerConfig"
                                       [templateJsonObject]="templateJson"
+                                      [instanceJsonObject]="instanceJson"
                                       [sampleTemplateLoaderObject]="sampleTemplateLoaderObject"
-                                      (handlerContextEvent)="handlerContextChanged($event)"
 ></app-cedar-artifact-viewer>
 <div class="spinner-wrapper" *ngIf="!editorDataReady() && showSpinnerBeforeInit">
   <mat-progress-spinner

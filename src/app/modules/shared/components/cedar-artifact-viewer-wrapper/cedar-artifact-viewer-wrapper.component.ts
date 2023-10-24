@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { SampleTemplatesService } from '../sample-templates/sample-templates.service';
@@ -13,6 +7,7 @@ import { JsonSchema } from '../../models/json-schema.model';
 import { CedarArtifactViewerComponent } from '../cedar-artifact-viewer/cedar-artifact-viewer.component';
 import { MessageHandlerService } from '../../services/message-handler.service';
 import { TranslateService } from '@ngx-translate/core';
+import { EmptyTemplateService } from '../../services/empty-template.service';
 
 @Component({
   selector: 'app-cedar-artifact-viewer-wrapper',
@@ -25,13 +20,13 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
   private initialized = false;
   private configSet = false;
 
-  templateJson: object = null;
   sampleTemplateLoaderObject = null;
   showSpinnerBeforeInit = true;
   protected onDestroySubject = new Subject<void>();
-  private metadata: object = null;
+  private templateJson: object = null;
+  private instanceJson: object = null;
   private loadedTemplateJson: object = null;
-  private loadedMetadata: object = null;
+  private loadedMetadataJson: object = null;
 
   constructor(
     private messageHandlerService: MessageHandlerService,
@@ -47,46 +42,37 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.sampleTemplateService.templateJson$
-      .pipe(takeUntil(this.onDestroySubject))
-      .subscribe((templateJson) => {
-        if (templateJson) {
-          this.loadedTemplateJson = Object.values(templateJson)[0];
-        } else {
-          this.loadedTemplateJson = null;
-        }
-        this.triggerUpdateOnInjectedSampledata();
-      });
-    this.sampleTemplateService.metadataJson$
-      .pipe(takeUntil(this.onDestroySubject))
-      .subscribe((metadataJson) => {
-        if (metadataJson) {
-          this.loadedMetadata = Object.values(metadataJson)[0];
-        } else {
-          this.loadedMetadata = null;
-        }
-        this.triggerUpdateOnInjectedSampledata();
-      });
+    this.sampleTemplateService.templateJson$.pipe(takeUntil(this.onDestroySubject)).subscribe((templateJson) => {
+      if (templateJson) {
+        this.loadedTemplateJson = Object.values(templateJson)[0];
+      } else {
+        this.loadedTemplateJson = null;
+      }
+      this.triggerUpdateOnInjectedSampleData();
+    });
+    this.sampleTemplateService.metadataJson$.pipe(takeUntil(this.onDestroySubject)).subscribe((metadataJson) => {
+      if (metadataJson) {
+        this.loadedMetadataJson = Object.values(metadataJson)[0];
+      } else {
+        this.loadedMetadataJson = null;
+      }
+      this.triggerUpdateOnInjectedSampleData();
+    });
     this.initialized = true;
     this.doInitialize();
   }
 
-  private initDataFromInstance(): void {}
-
   @Input() set templateObject(template: object) {
     this.templateJson = template;
+    this.triggerUpdate();
   }
 
   @Input() set instanceObject(instance: object) {
-    this.metadata = instance;
-    this.initDataFromInstance();
+    this.instanceJson = instance;
+    this.triggerUpdate();
   }
 
-  @Input() loadConfigFromURL(
-    jsonURL,
-    successHandler = null,
-    errorHandler = null,
-  ): void {
+  @Input() loadConfigFromURL(jsonURL, successHandler = null, errorHandler = null): void {
     const that = this;
     const xhr = new XMLHttpRequest();
     xhr.onreadystatechange = () => {
@@ -115,10 +101,7 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
   }
 
   @Input() set config(value: object) {
-    this.messageHandlerService.traceObject(
-      'CEDAR Embeddable Editor config set to:',
-      value,
-    );
+    this.messageHandlerService.traceObject('CEDAR Artifact Viewer config set to:', value);
 
     if (value != null) {
       this.innerConfig = value;
@@ -133,11 +116,7 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
 
   private deleteContext(obj): void {
     const keyCount = Object.keys(obj).length;
-    if (
-      keyCount === 2 &&
-      Object.hasOwn(obj, JsonSchema.atId) &&
-      Object.hasOwn(obj, JsonSchema.rdfsLabel)
-    ) {
+    if (keyCount === 2 && Object.hasOwn(obj, JsonSchema.atId) && Object.hasOwn(obj, JsonSchema.rdfsLabel)) {
       // do nothing, it is a controlled term
     } else if (keyCount === 1 && Object.hasOwn(obj, JsonSchema.atId)) {
       // do nothing, it is a link
@@ -161,51 +140,21 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
 
   private doInitialize(): void {
     if (this.initialized && this.configSet) {
-      if (
-        Object.hasOwn(
-          this.innerConfig,
-          CedarArtifactViewerComponent.LOAD_SAMPLE_TEMPLATE_NAME,
-        )
-      ) {
+      if (Object.hasOwn(this.innerConfig, CedarArtifactViewerComponent.LOAD_SAMPLE_TEMPLATE_NAME)) {
         this.sampleTemplateService.loadTemplate(
-          this.innerConfig[
-            CedarArtifactViewerComponent.TEMPLATE_LOCATION_PREFIX
-          ],
-          this.innerConfig[
-            CedarArtifactViewerComponent.LOAD_SAMPLE_TEMPLATE_NAME
-          ],
+          this.innerConfig[CedarArtifactViewerComponent.TEMPLATE_LOCATION_PREFIX],
+          this.innerConfig[CedarArtifactViewerComponent.LOAD_SAMPLE_TEMPLATE_NAME],
         );
       }
-      if (
-        Object.hasOwn(
-          this.innerConfig,
-          CedarArtifactViewerComponent.SHOW_SPINNER_BEFORE_INIT,
-        )
-      ) {
-        this.showSpinnerBeforeInit =
-          this.innerConfig[
-            CedarArtifactViewerComponent.SHOW_SPINNER_BEFORE_INIT
-          ];
+      if (Object.hasOwn(this.innerConfig, CedarArtifactViewerComponent.SHOW_SPINNER_BEFORE_INIT)) {
+        this.showSpinnerBeforeInit = this.innerConfig[CedarArtifactViewerComponent.SHOW_SPINNER_BEFORE_INIT];
       }
-
-      if (
-        Object.hasOwn(
-          this.innerConfig,
-          CedarArtifactViewerComponent.FALLBACK_LANGUAGE,
-        )
-      ) {
-        const fallbackLanguage =
-          this.innerConfig[CedarArtifactViewerComponent.FALLBACK_LANGUAGE];
+      if (Object.hasOwn(this.innerConfig, CedarArtifactViewerComponent.FALLBACK_LANGUAGE)) {
+        const fallbackLanguage = this.innerConfig[CedarArtifactViewerComponent.FALLBACK_LANGUAGE];
         this.translateService.setDefaultLang(fallbackLanguage);
       }
-      if (
-        Object.hasOwn(
-          this.innerConfig,
-          CedarArtifactViewerComponent.DEFAULT_LANGUAGE,
-        )
-      ) {
-        const defaultLanguage =
-          this.innerConfig[CedarArtifactViewerComponent.DEFAULT_LANGUAGE];
+      if (Object.hasOwn(this.innerConfig, CedarArtifactViewerComponent.DEFAULT_LANGUAGE)) {
+        const defaultLanguage = this.innerConfig[CedarArtifactViewerComponent.DEFAULT_LANGUAGE];
         this.translateService.use(defaultLanguage);
       }
     }
@@ -215,16 +164,20 @@ export class CedarArtifactViewerWrapperComponent implements OnInit, OnDestroy {
     return this.innerConfig != null && this.templateJson != null;
   }
 
-  private triggerUpdateOnInjectedSampledata(): void {
-    if (this.loadedTemplateJson != null) {
-      this.templateObject = this.loadedTemplateJson;
+  private triggerUpdateOnInjectedSampleData(): void {
+    if (this.loadedMetadataJson !== null) {
+      this.instanceJson = this.loadedMetadataJson;
+      this.triggerUpdate();
     }
-    if (this.loadedMetadata !== null) {
-      setTimeout(() => {
-        if (this.loadedMetadata !== null) {
-          this.instanceObject = this.loadedMetadata;
-        }
-      });
+    if (this.loadedTemplateJson != null) {
+      this.templateJson = this.loadedTemplateJson;
+      this.triggerUpdate();
+    }
+  }
+
+  private triggerUpdate() {
+    if (this.templateJson !== null && this.instanceJson === null) {
+      this.instanceJson = EmptyTemplateService.initInstance(this.templateJson);
     }
   }
 }

@@ -20,8 +20,6 @@ import { TemplateParserService } from '../../services/template-parser.service';
 import { TemplateService } from '../../services/template.service';
 import { TreeNode } from '../../models/tree-node.model';
 import { InstanceService } from '../../services/instance.service';
-import { MessageHandlerService } from '../../services/message-handler.service';
-import { SampleTemplatesService } from '../sample-templates/sample-templates.service';
 
 @Component({
   selector: 'app-cedar-artifact-viewer',
@@ -31,6 +29,8 @@ import { SampleTemplatesService } from '../sample-templates/sample-templates.ser
   encapsulation: ViewEncapsulation.None,
 })
 export class CedarArtifactViewerComponent implements OnInit, OnChanges {
+  private static INNER_VERSION = '2023-10-20 17:00';
+
   static TEMPLATE_LOCATION_PREFIX = 'sampleTemplateLocationPrefix';
   static LOAD_SAMPLE_TEMPLATE_NAME = 'loadSampleTemplateName';
   static FALLBACK_LANGUAGE = 'fallbackLanguage';
@@ -40,9 +40,11 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   private static SHOW_HEADER = 'showHeader';
   private static SHOW_FOOTER = 'showFooter';
   private static SHOW_SAMPLE_TEMPLATE_LINKS = 'showSampleTemplateLinks';
+  private static EXPANDED_SAMPLE_TEMPLATE_LINKS = 'expandedSampleTemplateLinks';
 
-  @Input() instance: any;
-  @Input() template: any;
+  instance: any;
+  template: any;
+
   @Input() mode: string;
   @Input() autocompleteResults: any;
   @Output() autocomplete = new EventEmitter<any>();
@@ -63,13 +65,9 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   showSampleTemplateLinks = false;
   showHeader = false;
   showFooter = false;
+  expandedSampleTemplateLinks = false;
 
-  constructor(
-    private messageHandlerService: MessageHandlerService,
-    database: TemplateParserService,
-    private sampleTemplateService: SampleTemplatesService,
-    private elementRef: ElementRef,
-  ) {
+  constructor(database: TemplateParserService) {
     this.pageEvent = {
       previousPageIndex: 0,
       pageIndex: 0,
@@ -80,24 +78,22 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
     this.dataSource = new MatTreeNestedDataSource();
     this.treeControl = new NestedTreeControl<TreeNode>(this._getChildren);
     this.form = new FormGroup({});
+    console.log('CAV:' + CedarArtifactViewerComponent.INNER_VERSION);
   }
 
   @Input() set config(value: object) {
     if (value != null) {
-      if (
-        Object.hasOwn(
-          value,
-          CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS,
-        )
-      ) {
-        this.showSampleTemplateLinks =
-          value[CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS];
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS)) {
+        this.showSampleTemplateLinks = value[CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS];
       }
       if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_FOOTER)) {
         this.showFooter = value[CedarArtifactViewerComponent.SHOW_FOOTER];
       }
       if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_HEADER)) {
         this.showHeader = value[CedarArtifactViewerComponent.SHOW_HEADER];
+      }
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.EXPANDED_SAMPLE_TEMPLATE_LINKS)) {
+        this.expandedSampleTemplateLinks = value[CedarArtifactViewerComponent.EXPANDED_SAMPLE_TEMPLATE_LINKS];
       }
     }
   }
@@ -109,14 +105,8 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   onPageChange(event) {
     this.pageEvent = event;
     this.initialize();
-    this.pageTitle = TemplateService.getTitleofPage(
-      this.template,
-      event.pageIndex,
-    );
-    this.pageDescription = TemplateService.getDescriptionofPage(
-      this.template,
-      event.pageIndex,
-    );
+    this.pageTitle = TemplateService.getTitleofPage(this.template, event.pageIndex);
+    this.pageDescription = TemplateService.getDescriptionofPage(this.template, event.pageIndex);
   }
 
   onAutocomplete(event) {
@@ -124,10 +114,7 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
-    if (
-      changes['autocompleteResults'] &&
-      changes['autocompleteResults']['currentValue'].length > 0
-    ) {
+    if (changes['autocompleteResults'] && changes['autocompleteResults']['currentValue'].length > 0) {
       this.autocompleteResults = changes['autocompleteResults']['currentValue'];
     } else {
       this.initialize();
@@ -145,18 +132,9 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
     if (this.instance && this.template) {
       this.pageEvent.length = TemplateService.getPageCount(this.template);
 
-      this.title =
-        InstanceService.getTitle(this.instance) ||
-        TemplateService.getTitle(this.template);
-      this.description =
-        InstanceService.getDescription(this.instance) ||
-        TemplateService.getDescription(this.template);
-      this.database.initialize(
-        this.form,
-        this.instance,
-        this.template,
-        this.pageEvent.pageIndex,
-      );
+      this.title = InstanceService.getTitle(this.instance) || TemplateService.getTitle(this.template);
+      this.description = InstanceService.getDescription(this.instance) || TemplateService.getDescription(this.template);
+      this.database.initialize(this.form, this.instance, this.template, this.pageEvent.pageIndex);
 
       this.database.dataChange.subscribe((data) => {
         if (data && data.length > 0) {
@@ -201,10 +179,7 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
     }
     this.updateModel(clonedNode, node.model);
     const parentGroup = node.parentGroup || this.form;
-    parentGroup.addControl(
-      clonedNode.key + clonedNode.itemCount,
-      clonedNode.formGroup,
-    );
+    parentGroup.addControl(clonedNode.key + clonedNode.itemCount, clonedNode.formGroup);
     this.database.dataChange.next(this.database.data);
   }
 
@@ -298,14 +273,24 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   getTemplateInfo() {
     let result;
     if (this.template && Object.hasOwn(this.template, 'pav:lastUpdatedOn')) {
-      result = this.parseDate(
-        this.template['pav:lastUpdatedOn'].substring(0, 10),
-      ).toDateString();
+      result = this.parseDate(this.template['pav:lastUpdatedOn'].substring(0, 10)).toDateString();
     }
     return result;
   }
 
   dataAvailableForRender(): boolean {
     return this.template != null;
+  }
+
+  headerDataAvailableForRender(): boolean {
+    return true;
+  }
+
+  @Input() set templateJsonObject(value: object) {
+    this.template = value;
+  }
+
+  @Input() set instanceJsonObject(value: object) {
+    this.instance = value;
   }
 }

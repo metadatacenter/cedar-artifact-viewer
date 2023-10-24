@@ -1,9 +1,5 @@
 <div>
-  <app-cedar-artifact-viewer
-    [template]="injectedTemplate"
-    [instance]="injectedInstance"
+  <app-cedar-artifact-viewer-wrapper
     [config]="artifactViewerConfig"
-    mode="view"
-  ></app-cedar-artifact-viewer>
+  ></app-cedar-artifact-viewer-wrapper>
 </div>
-{{injectedInstance | json}}

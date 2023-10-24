@@ -71,7 +71,6 @@ export class EmptyTemplateService {
       'oslc:modifiedBy': '',
       '@id': '',
     };
-    console.log(JSON.stringify(instance));
     return instance;
   }
 
