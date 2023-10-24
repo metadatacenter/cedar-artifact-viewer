@@ -81,6 +81,15 @@
     </mat-tree>
   </form>
 </div>
+
+<app-source-panels *ngIf="dataAvailableForRender()"
+                   [showTemplateData]="true"
+                   [showInstanceData]="true"
+                   [expandedTemplateData]="false"
+                   [expandedInstanceData]="false"
+                   [templateData]="template"
+                   [instanceData]="instance"
+></app-source-panels>
 <app-sample-templates *ngIf="dataAvailableForRender() && showSampleTemplateLinks"
                       [callbackOwnerObject]="sampleTemplateLoaderObject"
                       [expandedSampleTemplateLinks]="expandedSampleTemplateLinks"

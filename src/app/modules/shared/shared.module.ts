@@ -52,6 +52,7 @@ import { StaticFooterComponent } from './components/static-footer/static-footer.
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InputTypesModule } from '../input-types/input-types.module';
+import { SourcePanelsComponent } from './components/source-panels/source-panels.component';
 
 @NgModule({
   imports: [
@@ -112,6 +113,7 @@ import { InputTypesModule } from '../input-types/input-types.module';
     SampleTemplateSelectComponent,
     CedarArtifactViewerComponent,
     CedarArtifactViewerWrapperComponent,
+    SourcePanelsComponent,
   ],
   providers: [],
   exports: [CedarArtifactViewerComponent, CedarArtifactViewerWrapperComponent],

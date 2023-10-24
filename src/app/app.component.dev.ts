@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponentDev implements OnInit {
   artifactViewerConfig = {
     sampleTemplateLocationPrefix: 'http://localhost:4240/cedar-embeddable-editor-sample-templates/',
-    loadSampleTemplateName: '64',
+    loadSampleTemplateName: '10',
     showSampleTemplateLinks: true,
-    expandedSampleTemplateLinks: true,
+    expandedSampleTemplateLinks: false,
     showHeader: true,
     showFooter: true,
 
