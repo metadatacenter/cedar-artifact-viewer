@@ -1,2 +1,1 @@
-export interface MetadataSnip {
-}
+export interface MetadataSnip {}

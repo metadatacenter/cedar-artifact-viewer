@@ -20,9 +20,11 @@ if (environment.production) {
 }
 
 if (environment.production) {
-  platformBrowserDynamic().bootstrapModule(AppModuleProd)
-    .catch(err => console.error(err));
+  platformBrowserDynamic()
+    .bootstrapModule(AppModuleProd)
+    .catch((err) => console.error(err));
 } else {
-  platformBrowserDynamic().bootstrapModule(AppModuleDev)
-    .catch(err => console.error(err));
+  platformBrowserDynamic()
+    .bootstrapModule(AppModuleDev)
+    .catch((err) => console.error(err));
 }

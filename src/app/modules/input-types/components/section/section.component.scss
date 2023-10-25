@@ -1,0 +1,12 @@
+@use '../../../../../../node_modules/@angular/material/index' as mat;
+@import '../../../../../styles';
+
+@include mat.core();
+
+.section-break {;
+  color: mat.get-color-from-palette($my-app-secondary);
+  font-size: 2rem;
+  width: 100%;
+  border-bottom: 2px solid mat.get-color-from-palette($my-app-secondary);
+  margin: 20px 0;
+}

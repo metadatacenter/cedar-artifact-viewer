@@ -1,26 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { SAMPLE_TEMPLATE } from './sample-template';
-import { EmptyTemplateService } from "./modules/shared/services/empty-template.service";
-import { SAMPLE_INSTANCE } from "./sample-instance";
 
 @Component({
   selector: 'app-component-dev',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponentDev implements OnInit {
+  artifactViewerConfig = {
+    sampleTemplateLocationPrefix: 'http://localhost:4240/cedar-embeddable-editor-sample-templates/',
+    loadSampleTemplateName: '20',
+    showSampleTemplateLinks: true,
+    expandedSampleTemplateLinks: false,
+    showHeader: true,
+    showFooter: true,
 
-  injectedTemplate = SAMPLE_TEMPLATE;
+    terminologyIntegratedSearchUrl: 'https://terminology.metadatacenter.orgx/bioportal/integrated-search',
 
-  //injectedInstance = EmptyTemplateService.initInstance(this.injectedTemplate);
+    defaultLanguage: 'en',
+    fallbackLanguage: 'en',
+  };
 
-   injectedInstance = SAMPLE_INSTANCE;
+  constructor() {}
 
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

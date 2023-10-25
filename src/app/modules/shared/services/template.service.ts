@@ -5,7 +5,6 @@ import { InputType } from '../models/input-type';
 
 @Injectable()
 export class TemplateService {
-
   it: InputTypeService;
 
   constructor() {
@@ -18,7 +17,7 @@ export class TemplateService {
   }
 
   static schemaOf(node): TemplateSchema {
-    return (node && node.type === 'array' && node.items) ? node.items : node;
+    return node && node.type === 'array' && node.items ? node.items : node;
   }
 
   static propertiesOf(schema: TemplateSchema) {
@@ -55,7 +54,6 @@ export class TemplateService {
     return schema['schema:description'];
   }
 
-
   static getPlaceholder(schema: TemplateSchema) {
     return 'placeholder text';
   }
@@ -67,7 +65,6 @@ export class TemplateService {
   static isRequired(schema: TemplateSchema) {
     return schema._valueConstraints && schema._valueConstraints.requiredValue;
   }
-
 
   static getMin(schema: TemplateSchema) {
     return schema && schema._valueConstraints && schema._valueConstraints.minValue;
@@ -101,7 +98,6 @@ export class TemplateService {
     return schema['schema:name'];
   }
 
-
   static getPrefLabel(schema: TemplateSchema) {
     return schema['skos:prefLabel'];
   }
@@ -115,14 +111,14 @@ export class TemplateService {
   }
 
   static isElement(schema: TemplateSchema) {
-    return (schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateElement');
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateElement';
   }
 
   static isTemplate(schema: TemplateSchema) {
-    return (schema['@type'] === 'https://schema.metadatacenter.org/core/Template');
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/Template';
   }
 
-  static getNodeType( inputType: InputType): InputType {
+  static getNodeType(inputType: InputType): InputType {
     let result: InputType;
     switch (inputType) {
       case InputType.numeric:
@@ -259,15 +255,15 @@ export class TemplateService {
     const ct = TemplateService.getFieldControlledTerms(schema, nodeType);
     const ctv = TemplateService.hasControlledTermValue(schema);
     const link = nodeSubtype === InputType.url;
-    return (ct || ctv || link) ? '@id' : '@value';
+    return ct || ctv || link ? '@id' : '@value';
   }
 
   static isField(schema: TemplateSchema) {
-    return (schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateField');
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateField';
   }
 
   static isStaticField(schema: TemplateSchema) {
-    return (schema['@type'] === 'https://schema.metadatacenter.org/core/StaticTemplateField');
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/StaticTemplateField';
   }
 
   static getOrder(schema: TemplateSchema) {
@@ -342,7 +338,7 @@ export class TemplateService {
   }
 
   // build an order array for a particular page
-  static getDescriptionofPage(schema: TemplateSchema, page: number) {
+  static getDescriptionOfPage(schema: TemplateSchema, page: number) {
     const p = page || 0;
     const properties = this.getProperties(schema);
     const order = this.getOrder(schema);
@@ -362,7 +358,6 @@ export class TemplateService {
     return result;
   }
 
-
   // build an order array for a particular page
   static getOrderofPage(schema: TemplateSchema, page: number) {
     const p = page || 0;
@@ -373,7 +368,6 @@ export class TemplateService {
     const that = this;
     if (order) {
       order.forEach(function (key) {
-
         const prop: TemplateSchema = properties[key];
 
         const type: InputType = that.getInputType(prop);
@@ -384,12 +378,10 @@ export class TemplateService {
             pageOrder.push(key);
           }
         }
-
       });
     }
     return pageOrder;
   }
-
 
   static getInputType(schema: TemplateSchema): InputType {
     let result = InputType.textfield;
@@ -403,15 +395,15 @@ export class TemplateService {
   }
 
   static getContent(schema: TemplateSchema): any {
-    return (schema && schema._ui && schema._ui['_content']) ? schema._ui['_content'] : null;
+    return schema && schema._ui && schema._ui['_content'] ? schema._ui['_content'] : null;
   }
 
   static getSize(schema: TemplateSchema): any {
-    return (schema && schema._ui && schema._ui['_size']) ? schema._ui['_size'] : null;
+    return schema && schema._ui && schema._ui['_size'] ? schema._ui['_size'] : null;
   }
 
   static getHidden(schema: TemplateSchema): any {
-    return (schema && schema._ui && schema._ui['hidden']) ? schema._ui['hidden'] : false;
+    return schema && schema._ui && schema._ui['hidden'] ? schema._ui['hidden'] : false;
   }
 
   // has multiple choice value constraints?
@@ -419,25 +411,19 @@ export class TemplateService {
     return schema._valueConstraints && schema._valueConstraints.multipleChoice;
   }
 
-
-
   static generateInstanceTypeForNumericField(schema: TemplateSchema) {
-    if (schema._valueConstraints.hasOwnProperty('numberType')) {
+    if (Object.hasOwn(schema._valueConstraints, 'numberType')) {
       return schema._valueConstraints.numberType;
     }
   }
-
-
 
   static generateGUID = function () {
     let d = Date.now();
     const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
       const r = (d + Math.random() * 16) % 16 | 0;
       d = Math.floor(d / 16);
-      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
     });
     return guid;
   };
-
-
 }

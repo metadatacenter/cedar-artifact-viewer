@@ -1,19 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ArtifactFormComponent } from './components/artifact-form/artifact-form.component';
-import { AttributeValueComponent } from './components/attribute-value/attribute-value.component';
-import { CheckboxComponent } from './components/checkbox/checkbox.component';
-import { ControlledComponent } from './components/controlled/controlled.component';
-import { DateComponent } from './components/date/date.component';
+import { CedarArtifactViewerComponent } from './components/cedar-artifact-viewer/cedar-artifact-viewer.component';
 import { ElementComponent } from './components/element/element.component';
-import { ImageComponent } from './components/image/image.component';
-import { ListComponent } from './components/list/list.component';
 import { QuestionComponent } from './components/question/question.component';
-import { RadioComponent } from './components/radio/radio.component';
-import { RichtextComponent } from './components/richtext/richtext.component';
-import { SectionComponent } from './components/section/section.component';
-import { TextareaComponent } from './components/textarea/textarea.component';
-import { TextfieldComponent } from './components/textfield/textfield.component';
-import { YoutubeComponent } from './components/youtube/youtube.component';
+import { StaticHeaderComponent } from './components/static-header/static-header.component';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -55,6 +44,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SampleTemplatesComponent } from './components/sample-templates/sample-templates.component';
+import { CedarArtifactViewerWrapperComponent } from './components/cedar-artifact-viewer-wrapper/cedar-artifact-viewer-wrapper.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { SampleTemplateSelectComponent } from './components/sample-template-select/sample-template-select.component';
+import { StaticFooterComponent } from './components/static-footer/static-footer.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { InputTypesModule } from '../input-types/input-types.module';
+import { SourcePanelsComponent } from './components/source-panels/source-panels.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -96,32 +95,29 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+    NgxMatSelectSearchModule,
+    NgSelectModule,
     ScrollingModule,
     ReactiveFormsModule,
     CommonModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    TranslateModule,
+    InputTypesModule,
+    ClipboardModule,
   ],
   declarations: [
-    ArtifactFormComponent,
-    AttributeValueComponent,
-    CheckboxComponent,
-    ControlledComponent,
-    DateComponent,
+    CedarArtifactViewerComponent,
     ElementComponent,
-    ImageComponent,
-    ListComponent,
     QuestionComponent,
-    RadioComponent,
-    RichtextComponent,
-    SectionComponent,
-    TextareaComponent,
-    TextfieldComponent,
-    YoutubeComponent
+    StaticHeaderComponent,
+    StaticFooterComponent,
+    SampleTemplatesComponent,
+    SampleTemplateSelectComponent,
+    CedarArtifactViewerComponent,
+    CedarArtifactViewerWrapperComponent,
+    SourcePanelsComponent,
   ],
   providers: [],
-  exports: [
-    ArtifactFormComponent
-  ]
+  exports: [CedarArtifactViewerComponent, CedarArtifactViewerWrapperComponent],
 })
-export class SharedModule {
-}
+export class SharedModule {}

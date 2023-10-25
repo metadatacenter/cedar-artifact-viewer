@@ -1,0 +1,46 @@
+<mat-accordion class="source-accordion" multi>
+
+  <mat-expansion-panel *ngIf="showInstanceData" expanded="{{expandedInstanceData}}">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>device_hub</mat-icon>
+        {{'Extra.JsonLD.Instance' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        &nbsp;
+        <mat-icon matRipple [cdkCopyToClipboard]="instanceData | json" (click)="stopPropagation($event)"
+                  matTooltip="{{'Generic.Copy' | translate}}">content_copy
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <mat-card>
+        <pre>{{instanceData | json}}</pre>
+      </mat-card>
+    </ng-template>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel *ngIf="showTemplateData" expanded="{{expandedTemplateData}}">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>view_module</mat-icon>
+        {{'Extra.JsonSchemaTemplate' | translate}}
+      </mat-panel-title>
+      <mat-panel-description>
+        &nbsp;
+        <mat-icon matRipple [cdkCopyToClipboard]="templateData | json" (click)="stopPropagation($event)"
+                  matTooltip="{{'Generic.Copy' | translate}}">content_copy
+        </mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <mat-card>
+        <pre>{{templateData | json}}</pre>
+      </mat-card>
+    </ng-template>
+  </mat-expansion-panel>
+
+</mat-accordion>

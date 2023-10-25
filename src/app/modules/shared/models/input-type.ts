@@ -21,6 +21,5 @@ export enum InputType {
   image = 'image',
   youTube = 'youtube',
   static = 'static',
-  element = 'element'
+  element = 'element',
 }
-

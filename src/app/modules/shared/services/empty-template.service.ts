@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class EmptyTemplateService {
-
-  constructor() {
-  }
+  constructor() {}
 
   static schemaOf(node: any): any {
-    return (node && node.type === 'array' && node.items) ? node.items : node;
+    return node && node.type === 'array' && node.items ? node.items : node;
   }
 
   static isBasedOn(schema: any) {
@@ -30,39 +28,39 @@ export class EmptyTemplateService {
     const schema = EmptyTemplateService.schemaOf(template);
     const instance = {
       '@context': {
-        'rdfs': 'http://www.w3.org/2000/01/rdf-schema#',
-        'xsd': 'http://www.w3.org/2001/XMLSchema#',
-        'pav': 'http://purl.org/pav/',
-        'schema': 'http://schema.org/',
-        'oslc': 'http://open-services.net/ns/core#',
-        'skos': 'http://www.w3.org/2004/02/skos/core#',
+        rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+        xsd: 'http://www.w3.org/2001/XMLSchema#',
+        pav: 'http://purl.org/pav/',
+        schema: 'http://schema.org/',
+        oslc: 'http://open-services.net/ns/core#',
+        skos: 'http://www.w3.org/2004/02/skos/core#',
         'rdfs:label': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'schema:isBasedOn': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'schema:name': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'schema:description': {
-          '@type': 'xsd:string'
+          '@type': 'xsd:string',
         },
         'pav:createdOn': {
-          '@type': 'xsd:dateTime'
+          '@type': 'xsd:dateTime',
         },
         'pav:createdBy': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'pav:lastUpdatedOn': {
-          '@type': 'xsd:dateTime'
+          '@type': 'xsd:dateTime',
         },
         'oslc:modifiedBy': {
-          '@type': '@id'
+          '@type': '@id',
         },
         'skos:notation': {
-          '@type': 'xsd:string'
-        }
+          '@type': 'xsd:string',
+        },
       },
       'schema:isBasedOn': EmptyTemplateService.getId(schema),
       'schema:name': EmptyTemplateService.getName(schema),
@@ -71,9 +69,8 @@ export class EmptyTemplateService {
       'pav:createdBy': '',
       'pav:lastUpdatedOn': '',
       'oslc:modifiedBy': '',
-      '@id': ''
+      '@id': '',
     };
-    console.log(JSON.stringify(instance));
     return instance;
   }
 
@@ -91,5 +88,4 @@ export class EmptyTemplateService {
     instance['schema:name'] = name;
     return instance;
   }
-
 }

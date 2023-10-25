@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { InputType } from '../models/input-type';
 import { TreeNode } from '../models/tree-node.model';
 
-
 @Injectable()
 export class ValidatorService {
-
-
   static getValidators(node: TreeNode) {
     const validators = [];
     if (node.required) {
@@ -46,8 +49,11 @@ export class ValidatorService {
   // validator for min and max
   static quantityRangeValidator(min: number, max: number): ValidatorFn {
     return (control: AbstractControl): { [key: string]: boolean } | null => {
-      if (control.value !== undefined && (isNaN(control.value) || control.value < min || control.value > max)) {
-        return { 'quantityRange': true };
+      if (
+        control.value !== undefined &&
+        (isNaN(control.value) || control.value < min || control.value > max)
+      ) {
+        return { quantityRange: true };
       }
       return null;
     };
@@ -59,23 +65,27 @@ export class ValidatorService {
       let result = null;
       if (control.value) {
         if (isNaN(Number(control.value))) {
-          result = { 'numeric': true };
+          result = { numeric: true };
         }
       }
       return result;
     };
   }
 
-
   // validator for precision of a number
   static decimalValidator(precision: number): ValidatorFn {
-    return (control: AbstractControl): { [key: string]: { actual: number, required: number } } | null => {
+    return (
+      control: AbstractControl,
+    ): { [key: string]: { actual: number; required: number } } | null => {
       let result = null;
-      if (precision && control.value && (!isNaN(Number(control.value)))) {
-        const intPrecision = (Math.floor( control.value ) + '').split('.')[0].length;
+      if (precision && control.value && !isNaN(Number(control.value))) {
+        const intPrecision = (Math.floor(control.value) + '').split('.')[0]
+          .length;
         const arr = control.value.split('.');
         const decimalPrecision = arr[1] && arr[1].length;
-        const suggestion = Number.parseFloat(control.value).toPrecision(intPrecision + precision);
+        const suggestion = Number.parseFloat(control.value).toPrecision(
+          intPrecision + precision,
+        );
 
         if (decimalPrecision) {
           if (precision < decimalPrecision) {
@@ -83,8 +93,8 @@ export class ValidatorService {
               decimal: {
                 actual: decimalPrecision,
                 required: precision,
-                suggested: suggestion
-              }
+                suggested: suggestion,
+              },
             };
           }
         } else {
@@ -92,8 +102,8 @@ export class ValidatorService {
             decimal: {
               actual: 0,
               required: precision,
-              suggested: suggestion
-            }
+              suggested: suggestion,
+            },
           };
         }
       }
@@ -107,19 +117,19 @@ export class ValidatorService {
       return null;
     }
     // tslint:disable-next-line:max-line-length
-    const URL_REGEXP = /^(http?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+    const URL_REGEXP =
+      /^(http?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
     url.markAsTouched();
     if (URL_REGEXP.test(url.value)) {
       return null;
     }
     return {
-      url: true
+      url: true,
     };
   }
 
-
   static validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
+    Object.keys(formGroup.controls).forEach((field) => {
       const control = formGroup.get(field);
       if (control instanceof FormControl) {
         control.markAsTouched({ onlySelf: true });
@@ -128,6 +138,4 @@ export class ValidatorService {
       }
     });
   }
-
-
 }

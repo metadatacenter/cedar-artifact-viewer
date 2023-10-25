@@ -2,7 +2,6 @@ import { InputType } from '../models/input-type';
 import { constants } from '../models/constants';
 
 export class InputTypeService {
-
   static isStatic(t: InputType) {
     return constants.inputTypes[t].staticField;
   }
@@ -12,13 +11,23 @@ export class InputTypeService {
   }
 
   static isNotTextInput(t: string) {
-    return t === InputType.attributeValue ||
-      t === InputType.controlled || t === InputType.list || t === InputType.radio ||
-      t === InputType.checkbox || t === InputType.temporal || t === InputType.textarea;
+    return (
+      t === InputType.attributeValue ||
+      t === InputType.controlled ||
+      t === InputType.list ||
+      t === InputType.radio ||
+      t === InputType.checkbox ||
+      t === InputType.temporal ||
+      t === InputType.textarea
+    );
   }
 
   static isRadioCheckList(t: string) {
-    return InputTypeService.isRadio(t) || InputTypeService.isCheckbox(t) || InputTypeService.isList(t);
+    return (
+      InputTypeService.isRadio(t) ||
+      InputTypeService.isCheckbox(t) ||
+      InputTypeService.isList(t)
+    );
   }
 
   static isCheckbox(t: string) {
@@ -64,6 +73,4 @@ export class InputTypeService {
   static isNumber(t: string) {
     return t === InputType.number;
   }
-
-
 }
