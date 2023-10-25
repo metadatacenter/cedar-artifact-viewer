@@ -67,41 +67,27 @@ export class TemplateService {
   }
 
   static getMin(schema: TemplateSchema) {
-    return (
-      schema && schema._valueConstraints && schema._valueConstraints.minValue
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.minValue;
   }
 
   static getMax(schema: TemplateSchema) {
-    return (
-      schema && schema._valueConstraints && schema._valueConstraints.maxValue
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.maxValue;
   }
 
   static getDecimals(schema: TemplateSchema) {
-    return (
-      schema &&
-      schema._valueConstraints &&
-      schema._valueConstraints.decimalPlace
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.decimalPlace;
   }
 
   static getNumeric(schema: TemplateSchema) {
-    return (
-      schema && schema._valueConstraints && schema._valueConstraints.numberType
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.numberType;
   }
 
   static getMinStringLength(schema: TemplateSchema) {
-    return (
-      schema && schema._valueConstraints && schema._valueConstraints.minLength
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.minLength;
   }
 
   static getMaxStringLength(schema: TemplateSchema) {
-    return (
-      schema && schema._valueConstraints && schema._valueConstraints.maxLength
-    );
+    return schema && schema._valueConstraints && schema._valueConstraints.maxLength;
   }
 
   static getMaxDefaultValue(schema: TemplateSchema) {
@@ -117,11 +103,7 @@ export class TemplateService {
   }
 
   static getTitle(schema: TemplateSchema, label?: string) {
-    return (
-      TemplateService.getPrefLabel(schema) ||
-      label ||
-      TemplateService.getName(schema)
-    );
+    return TemplateService.getPrefLabel(schema) || label || TemplateService.getName(schema);
   }
 
   static getDescription(schema: any) {
@@ -129,16 +111,11 @@ export class TemplateService {
   }
 
   static isElement(schema: TemplateSchema) {
-    return (
-      schema['@type'] ===
-      'https://schema.metadatacenter.org/core/TemplateElement'
-    );
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateElement';
   }
 
   static isTemplate(schema: TemplateSchema) {
-    return (
-      schema['@type'] === 'https://schema.metadatacenter.org/core/Template'
-    );
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/Template';
   }
 
   static getNodeType(inputType: InputType): InputType {
@@ -201,13 +178,7 @@ export class TemplateService {
     return result;
   }
 
-  static initValue(
-    schema: TemplateSchema,
-    key: string,
-    type: InputType,
-    minItems: number,
-    maxItems: number,
-  ) {
+  static initValue(schema: TemplateSchema, key: string, type: InputType, minItems: number, maxItems: number) {
     let result;
     if (type === InputType.element) {
       if (!this.isUndefined(minItems)) {
@@ -216,11 +187,7 @@ export class TemplateService {
         result = { '@context': {}, '@id': schema['@id'] };
       }
     } else {
-      const location = this.getValueLocation(
-        schema,
-        this.getNodeType(type),
-        this.getNodeSubtype(type),
-      );
+      const location = this.getValueLocation(schema, this.getNodeType(type), this.getNodeSubtype(type));
 
       if (location === '@value') {
         if (!this.isUndefined(minItems)) {
@@ -275,27 +242,16 @@ export class TemplateService {
 
   // get the controlled terms list for field types
   static getFieldControlledTerms(schema: TemplateSchema, inputType: InputType) {
-    if (
-      !InputTypeService.isStatic(inputType) &&
-      inputType !== InputType.attributeValue
-    ) {
+    if (!InputTypeService.isStatic(inputType) && inputType !== InputType.attributeValue) {
       const properties = this.propertiesOf(schema);
-      if (
-        properties['@type'] &&
-        properties['@type'].oneOf &&
-        properties['@type'].oneOf[1]
-      ) {
+      if (properties['@type'] && properties['@type'].oneOf && properties['@type'].oneOf[1]) {
         return properties['@type'].oneOf[1].items['enum'];
       }
     }
   }
 
   // where is the value of this field, @id or @value?
-  static getValueLocation(
-    schema: TemplateSchema,
-    nodeType: InputType,
-    nodeSubtype: InputType,
-  ) {
+  static getValueLocation(schema: TemplateSchema, nodeType: InputType, nodeSubtype: InputType) {
     const ct = TemplateService.getFieldControlledTerms(schema, nodeType);
     const ctv = TemplateService.hasControlledTermValue(schema);
     const link = nodeSubtype === InputType.url;
@@ -303,16 +259,11 @@ export class TemplateService {
   }
 
   static isField(schema: TemplateSchema) {
-    return (
-      schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateField'
-    );
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/TemplateField';
   }
 
   static isStaticField(schema: TemplateSchema) {
-    return (
-      schema['@type'] ===
-      'https://schema.metadatacenter.org/core/StaticTemplateField'
-    );
+    return schema['@type'] === 'https://schema.metadatacenter.org/core/StaticTemplateField';
   }
 
   static getOrder(schema: TemplateSchema) {
@@ -387,7 +338,7 @@ export class TemplateService {
   }
 
   // build an order array for a particular page
-  static getDescriptionofPage(schema: TemplateSchema, page: number) {
+  static getDescriptionOfPage(schema: TemplateSchema, page: number) {
     const p = page || 0;
     const properties = this.getProperties(schema);
     const order = this.getOrder(schema);
@@ -436,10 +387,7 @@ export class TemplateService {
     let result = InputType.textfield;
     if (schema && schema._ui && schema._ui.inputType) {
       result = schema._ui.inputType as InputType;
-      if (
-        InputTypeService.isTextfield(result) &&
-        this.hasControlledTermValue(schema)
-      ) {
+      if (InputTypeService.isTextfield(result) && this.hasControlledTermValue(schema)) {
         result = InputType.controlled;
       }
     }
@@ -447,21 +395,15 @@ export class TemplateService {
   }
 
   static getContent(schema: TemplateSchema): any {
-    return schema && schema._ui && schema._ui['_content']
-      ? schema._ui['_content']
-      : null;
+    return schema && schema._ui && schema._ui['_content'] ? schema._ui['_content'] : null;
   }
 
   static getSize(schema: TemplateSchema): any {
-    return schema && schema._ui && schema._ui['_size']
-      ? schema._ui['_size']
-      : null;
+    return schema && schema._ui && schema._ui['_size'] ? schema._ui['_size'] : null;
   }
 
   static getHidden(schema: TemplateSchema): any {
-    return schema && schema._ui && schema._ui['hidden']
-      ? schema._ui['hidden']
-      : false;
+    return schema && schema._ui && schema._ui['hidden'] ? schema._ui['hidden'] : false;
   }
 
   // has multiple choice value constraints?
@@ -477,14 +419,11 @@ export class TemplateService {
 
   static generateGUID = function () {
     let d = Date.now();
-    const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-      /[xy]/g,
-      function (c) {
-        const r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
-      },
-    );
+    const guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = (d + Math.random() * 16) % 16 | 0;
+      d = Math.floor(d / 16);
+      return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+    });
     return guid;
   };
 }

@@ -106,7 +106,7 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
     this.pageEvent = event;
     this.initialize();
     this.pageTitle = TemplateService.getTitleofPage(this.template, event.pageIndex);
-    this.pageDescription = TemplateService.getDescriptionofPage(this.template, event.pageIndex);
+    this.pageDescription = TemplateService.getDescriptionOfPage(this.template, event.pageIndex);
   }
 
   onAutocomplete(event) {

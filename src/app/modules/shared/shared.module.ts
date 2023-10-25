@@ -53,6 +53,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { InputTypesModule } from '../input-types/input-types.module';
 import { SourcePanelsComponent } from './components/source-panels/source-panels.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   imports: [
@@ -102,6 +103,7 @@ import { SourcePanelsComponent } from './components/source-panels/source-panels.
     FontAwesomeModule,
     TranslateModule,
     InputTypesModule,
+    ClipboardModule,
   ],
   declarations: [
     CedarArtifactViewerComponent,
