@@ -83,8 +83,8 @@
 </div>
 
 <app-source-panels *ngIf="dataAvailableForRender()"
-                   [showTemplateData]="true"
-                   [showInstanceData]="true"
+                   [showTemplateData]="showTemplateData"
+                   [showInstanceData]="showInstanceData"
                    [expandedTemplateData]="false"
                    [expandedInstanceData]="false"
                    [templateData]="template"

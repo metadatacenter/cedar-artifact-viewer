@@ -11,6 +11,9 @@ export class AppComponentDev implements OnInit {
     loadSampleTemplateName: '20',
     showSampleTemplateLinks: true,
     expandedSampleTemplateLinks: false,
+
+    showTemplateData: true,
+    showInstanceData: true,
     showHeader: true,
     showFooter: true,
 

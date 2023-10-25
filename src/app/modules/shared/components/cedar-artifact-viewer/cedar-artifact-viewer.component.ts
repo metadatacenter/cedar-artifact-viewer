@@ -37,6 +37,8 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
   static DEFAULT_LANGUAGE = 'defaultLanguage';
   static SHOW_SPINNER_BEFORE_INIT = 'showSpinnerBeforeInit';
 
+  private static SHOW_TEMPLATE_DATA = 'showTemplateData';
+  private static SHOW_INSTANCE_DATA = 'showInstanceData';
   private static SHOW_HEADER = 'showHeader';
   private static SHOW_FOOTER = 'showFooter';
   private static SHOW_SAMPLE_TEMPLATE_LINKS = 'showSampleTemplateLinks';
@@ -63,6 +65,8 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
 
   @Input() sampleTemplateLoaderObject: any = null;
   showSampleTemplateLinks = false;
+  showTemplateData: false;
+  showInstanceData: false;
   showHeader = false;
   showFooter = false;
   expandedSampleTemplateLinks = false;
@@ -85,6 +89,12 @@ export class CedarArtifactViewerComponent implements OnInit, OnChanges {
     if (value != null) {
       if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS)) {
         this.showSampleTemplateLinks = value[CedarArtifactViewerComponent.SHOW_SAMPLE_TEMPLATE_LINKS];
+      }
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_TEMPLATE_DATA)) {
+        this.showTemplateData = value[CedarArtifactViewerComponent.SHOW_TEMPLATE_DATA];
+      }
+      if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_INSTANCE_DATA)) {
+        this.showInstanceData = value[CedarArtifactViewerComponent.SHOW_INSTANCE_DATA];
       }
       if (Object.hasOwn(value, CedarArtifactViewerComponent.SHOW_FOOTER)) {
         this.showFooter = value[CedarArtifactViewerComponent.SHOW_FOOTER];
