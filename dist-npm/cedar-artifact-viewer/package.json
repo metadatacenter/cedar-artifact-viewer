@@ -1,0 +1,26 @@
+{
+  "name": "cedar-artifact-viewer",
+  "version": "0.9.3",
+  "scripts": {},
+  "devDependencies": {},
+  "description": "Cedar artifact viewer web component",
+  "main": "cedar-artifact-viewer.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metadatacenter/cedar-artifact-viewer.git"
+  },
+  "keywords": [
+    "Metadata",
+    "Cedar",
+    "Artifact",
+    "Viewer",
+    "Web",
+    "component"
+  ],
+  "author": "Metadatacenter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/metadatacenter/cedar-artifact-viewer/issues"
+  },
+  "homepage": "https://github.com/metadatacenter/cedar-artifact-viewer#readme"
+}

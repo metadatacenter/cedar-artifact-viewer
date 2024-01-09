@@ -27,7 +27,7 @@ script:
   - ng test --watch=false
 env:
   global:
-    - CEDAR_VERSION="2.6.41"
+    - CEDAR_VERSION="2.6.49"
 cache:
   directories:
     - node_modules

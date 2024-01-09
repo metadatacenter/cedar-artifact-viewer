@@ -1,0 +1,16 @@
+.mat-radio-button {
+  margin-bottom:10px;
+  width:100%
+}
+.mat-form-field {
+  padding:15px 0 20px 0;
+}
+
+:host ::ng-deep .mat-radio-label {
+  white-space: normal !important;
+}
+
+div.input-separator {
+  border-bottom: 1px solid #a3a3a3;
+  margin-bottom: 20px;
+}
