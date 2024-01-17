@@ -1,6 +1,6 @@
 {
   "name": "cedar-artifact-viewer",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "scripts": {},
   "devDependencies": {},
   "description": "Cedar artifact viewer web component",
