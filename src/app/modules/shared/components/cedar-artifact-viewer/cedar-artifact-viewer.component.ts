@@ -15,7 +15,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { PageEvent } from '@angular/material/paginator';
 import { NestedTreeControl } from '@angular/cdk/tree';
 
-import * as cloneDeep from 'lodash/cloneDeep';
+import cloneDeep from 'lodash-es/cloneDeep';
 import { TemplateParserService } from '../../services/template-parser.service';
 import { TemplateService } from '../../services/template.service';
 import { TreeNode } from '../../models/tree-node.model';
@@ -29,7 +29,7 @@ import { InstanceService } from '../../services/instance.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class CedarArtifactViewerComponent implements OnInit, OnChanges {
-  private static INNER_VERSION = '2024-01-12 10:40';
+  private static INNER_VERSION = '2024-01-16 16:50';
 
   static TEMPLATE_LOCATION_PREFIX = 'sampleTemplateLocationPrefix';
   static LOAD_SAMPLE_TEMPLATE_NAME = 'loadSampleTemplateName';
