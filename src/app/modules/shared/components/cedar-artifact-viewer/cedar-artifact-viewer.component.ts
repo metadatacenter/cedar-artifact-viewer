@@ -29,7 +29,7 @@ import { InstanceService } from '../../services/instance.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class CedarArtifactViewerComponent implements OnInit, OnChanges {
-  private static INNER_VERSION = '2024-01-16 16:00';
+  private static INNER_VERSION = '2024-01-16 16:50';
 
   static TEMPLATE_LOCATION_PREFIX = 'sampleTemplateLocationPrefix';
   static LOAD_SAMPLE_TEMPLATE_NAME = 'loadSampleTemplateName';

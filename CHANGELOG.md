@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Material Icons font embedded in css
+- Material Icons and Roboto font embedded in package
+- Lodash-es instead of lodash
 
 ## [0.9.4] - 2024-01-12
 
